@@ -21,6 +21,10 @@ rcpp_parallel_which_max_quarter <- function(mat_1, mat_2, mat_3) {
     .Call(`_fastBioClim_rcpp_parallel_which_max_quarter`, mat_1, mat_2, mat_3)
 }
 
+parallel_random_matrix <- function(n, m, ncores) {
+    .Call(`_fastBioClim_parallel_random_matrix`, n, m, ncores)
+}
+
 rcpp_get_max_quarter <- function(maxQuarter, mat) {
     .Call(`_fastBioClim_rcpp_get_max_quarter`, maxQuarter, mat)
 }
