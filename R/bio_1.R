@@ -8,7 +8,7 @@ library(terra)
 #' @export
 #'
 #' @examples
-bio_1 <- function(tas, filename){
+bio_1 <- function(tas, filename = "" ){
   out <- rast(tas)
   nlyr(out) <- 1
   nc <- ncol(tas)
@@ -29,15 +29,3 @@ bio_1 <- function(tas, filename){
   
 }
 
-
-bio_1_v2 <- function(tas, filename){
-  out <- rast(tas)
-  nlyr(out) <- 1
-  nc <- ncol(tas)
-  readStart(tas)
-  on.exit(readStop(tas))
-  v <- readValues(tas, row = 1, nrows = nrow(tas), col=1, ncols = ncol(tas), 12, matrix = TRUE)
-  r <- fastBioClim::rcpp_parallel_average(v)
-  writeValues(out, r, row=1, nrows=nrow(tas), col=1, ncols=ncol(tas))
-  writeStop(out)
-}
