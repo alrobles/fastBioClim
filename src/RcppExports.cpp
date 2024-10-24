@@ -79,6 +79,41 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_parallel_which_max_row
+NumericMatrix rcpp_parallel_which_max_row(NumericMatrix mat_1);
+RcppExport SEXP _fastBioClim_rcpp_parallel_which_max_row(SEXP mat_1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_which_max_row(mat_1));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_parallel_which_min_row
+NumericMatrix rcpp_parallel_which_min_row(NumericMatrix mat_1);
+RcppExport SEXP _fastBioClim_rcpp_parallel_which_min_row(SEXP mat_1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_which_min_row(mat_1));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_parallel_which_min_quarter
+NumericMatrix rcpp_parallel_which_min_quarter(NumericMatrix mat_1, NumericMatrix mat_2, NumericMatrix mat_3);
+RcppExport SEXP _fastBioClim_rcpp_parallel_which_min_quarter(SEXP mat_1SEXP, SEXP mat_2SEXP, SEXP mat_3SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_2(mat_2SEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_3(mat_3SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_which_min_quarter(mat_1, mat_2, mat_3));
+    return rcpp_result_gen;
+END_RCPP
+}
 // parallel_random_matrix
 Rcpp::IntegerMatrix parallel_random_matrix(const int n, const int m, const int ncores);
 RcppExport SEXP _fastBioClim_parallel_random_matrix(SEXP nSEXP, SEXP mSEXP, SEXP ncoresSEXP) {
@@ -115,6 +150,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_parallel_cumulative_sum
+NumericMatrix rcpp_parallel_cumulative_sum(NumericMatrix mat_1);
+RcppExport SEXP _fastBioClim_rcpp_parallel_cumulative_sum(SEXP mat_1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_cumulative_sum(mat_1));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_parallel_variance
 NumericMatrix rcpp_parallel_variance(NumericMatrix mat_1);
 RcppExport SEXP _fastBioClim_rcpp_parallel_variance(SEXP mat_1SEXP) {
@@ -145,9 +191,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastBioClim_vectorMaxInd", (DL_FUNC) &_fastBioClim_vectorMaxInd, 1},
     {"_fastBioClim_rcpp_which_max_quarter", (DL_FUNC) &_fastBioClim_rcpp_which_max_quarter, 1},
     {"_fastBioClim_rcpp_parallel_which_max_quarter", (DL_FUNC) &_fastBioClim_rcpp_parallel_which_max_quarter, 3},
+    {"_fastBioClim_rcpp_parallel_which_max_row", (DL_FUNC) &_fastBioClim_rcpp_parallel_which_max_row, 1},
+    {"_fastBioClim_rcpp_parallel_which_min_row", (DL_FUNC) &_fastBioClim_rcpp_parallel_which_min_row, 1},
+    {"_fastBioClim_rcpp_parallel_which_min_quarter", (DL_FUNC) &_fastBioClim_rcpp_parallel_which_min_quarter, 3},
     {"_fastBioClim_parallel_random_matrix", (DL_FUNC) &_fastBioClim_parallel_random_matrix, 3},
     {"_fastBioClim_rcpp_get_max_quarter", (DL_FUNC) &_fastBioClim_rcpp_get_max_quarter, 2},
     {"_fastBioClim_rcpp_parallel_average", (DL_FUNC) &_fastBioClim_rcpp_parallel_average, 1},
+    {"_fastBioClim_rcpp_parallel_cumulative_sum", (DL_FUNC) &_fastBioClim_rcpp_parallel_cumulative_sum, 1},
     {"_fastBioClim_rcpp_parallel_variance", (DL_FUNC) &_fastBioClim_rcpp_parallel_variance, 1},
     {"_fastBioClim_rcpp_parallel_sd", (DL_FUNC) &_fastBioClim_rcpp_parallel_sd, 1},
     {NULL, NULL, 0}

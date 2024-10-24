@@ -25,6 +25,18 @@ rcpp_parallel_which_max_quarter <- function(mat_1, mat_2, mat_3) {
     .Call(`_fastBioClim_rcpp_parallel_which_max_quarter`, mat_1, mat_2, mat_3)
 }
 
+rcpp_parallel_which_max_row <- function(mat_1) {
+    .Call(`_fastBioClim_rcpp_parallel_which_max_row`, mat_1)
+}
+
+rcpp_parallel_which_min_row <- function(mat_1) {
+    .Call(`_fastBioClim_rcpp_parallel_which_min_row`, mat_1)
+}
+
+rcpp_parallel_which_min_quarter <- function(mat_1, mat_2, mat_3) {
+    .Call(`_fastBioClim_rcpp_parallel_which_min_quarter`, mat_1, mat_2, mat_3)
+}
+
 parallel_random_matrix <- function(n, m, ncores) {
     .Call(`_fastBioClim_parallel_random_matrix`, n, m, ncores)
 }
@@ -35,6 +47,10 @@ rcpp_get_max_quarter <- function(maxQuarter, mat) {
 
 rcpp_parallel_average <- function(mat_1) {
     .Call(`_fastBioClim_rcpp_parallel_average`, mat_1)
+}
+
+rcpp_parallel_cumulative_sum <- function(mat_1) {
+    .Call(`_fastBioClim_rcpp_parallel_cumulative_sum`, mat_1)
 }
 
 rcpp_parallel_variance <- function(mat_1) {

@@ -1,13 +1,13 @@
-#' bio_1 Create monthly average temperature
+#' bio_4 Temperature seasonality
 #'
 #' @param tas Average monthly temperature raster with 12 layers
 #' @param filename the output where to write
 #'
-#' @return a raster with the bio_1 variable
+#' @return a raster with the bio_5 variable. Standard deviation of the average monthly temperature
 #' @export
 #'
 #' @examples
-bio_1 <- function(tas, filename = ""){
+bio_4 <- function(tas, filename = ""){
   out <- rast(tas)
   nlyr(out) <- 1
   nc <- ncol(tas)
@@ -21,7 +21,7 @@ bio_1 <- function(tas, filename = ""){
   
   for (i in 1:b$n) {
     v <- readValues(tas, b$row[i], b$nrows[i], 1, nc, TRUE)
-    r <- fastBioClim::rcpp_parallel_average(v)
+    r <- fastBioClim::rcpp_parallel_sd(v)
     writeValues(out, r, b$row[i], b$nrows[i])
   }
   writeStop(out)
