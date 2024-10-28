@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-bio8 <- function(pr, tas, filename = ""){
+bio_8 <- function(pr, tas, filename = ""){
   out <- rast(pr);
   nlyr(out) <- 1;
   nc <- ncol(pr);

@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-bio5 <- function(tasmax, filename = ""){
+bio_5 <- function(tasmax, filename = ""){
   out <- rast(tasmax)
   nlyr(out) <- 1
   nc <- ncol(tasmax)

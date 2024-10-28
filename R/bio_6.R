@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-bio6 <- function(tasmin, filename = ""){
+bio_6 <- function(tasmin, filename = ""){
   out <- rast(tasmin)
   nlyr(out) <- 1
   nc <- ncol(tasmin)

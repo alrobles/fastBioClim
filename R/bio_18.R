@@ -7,7 +7,7 @@
 #' @export A raster file. 
 #'
 #' @examples
-bio18 <- function(pr, tasmax){
+bio_18 <- function(pr, tasmax){
   out <- rast(pr);
   nlyr(out) <- 1;
   nc <- ncol(pr);

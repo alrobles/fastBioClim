@@ -1,13 +1,13 @@
-#' bio_5 Coefficient of variation in precipitation rate
+#' bio_15 Coefficient of variation in precipitation rate
 #'
 #' @param pr Monthly precipitation raster with 12 layers
 #' @param filename the output where to write
 #'
-#' @return a raster with the bio_12 variable
+#' @return a raster with the bio_15 variable
 #' @export
 #'
 #' @examples
-bio15 <- function(pr, filename = ""){
+bio_15 <- function(pr, filename = ""){
   
     out <- rast(pr)
     nlyr(out) <- 1

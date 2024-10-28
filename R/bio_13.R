@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-bio13 <- function(pr, filename = ""){
+bio_13 <- function(pr, filename = ""){
   out <- rast(pr)
   nlyr(out) <- 1
   nc <- ncol(pr)
