@@ -150,6 +150,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_parallel_coef_var
+NumericMatrix rcpp_parallel_coef_var(NumericMatrix mat_1);
+RcppExport SEXP _fastBioClim_rcpp_parallel_coef_var(SEXP mat_1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_coef_var(mat_1));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_parallel_cumulative_sum
 NumericMatrix rcpp_parallel_cumulative_sum(NumericMatrix mat_1);
 RcppExport SEXP _fastBioClim_rcpp_parallel_cumulative_sum(SEXP mat_1SEXP) {
@@ -197,6 +208,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastBioClim_parallel_random_matrix", (DL_FUNC) &_fastBioClim_parallel_random_matrix, 3},
     {"_fastBioClim_rcpp_get_max_quarter", (DL_FUNC) &_fastBioClim_rcpp_get_max_quarter, 2},
     {"_fastBioClim_rcpp_parallel_average", (DL_FUNC) &_fastBioClim_rcpp_parallel_average, 1},
+    {"_fastBioClim_rcpp_parallel_coef_var", (DL_FUNC) &_fastBioClim_rcpp_parallel_coef_var, 1},
     {"_fastBioClim_rcpp_parallel_cumulative_sum", (DL_FUNC) &_fastBioClim_rcpp_parallel_cumulative_sum, 1},
     {"_fastBioClim_rcpp_parallel_variance", (DL_FUNC) &_fastBioClim_rcpp_parallel_variance, 1},
     {"_fastBioClim_rcpp_parallel_sd", (DL_FUNC) &_fastBioClim_rcpp_parallel_sd, 1},
