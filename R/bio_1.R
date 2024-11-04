@@ -8,23 +8,23 @@
 #'
 #' @examples
 bio_1 <- function(tas, filename = ""){
-  out <- rast(tas)
-  nlyr(out) <- 1
-  nc <- ncol(tas)
-  readStart(tas)
-  on.exit(readStop(tas))
-  nl <- nlyr(tas)
-  nc <- ncol(tas)
+  out <- terra::rast(tas)
+  terra::nlyr(out) <- 1
+  nc <- terra::ncol(tas)
+  terra::readStart(tas)
+  terra::on.exit(readStop(tas))
+  nl <- terra::nlyr(tas)
+  nc <- terra::ncol(tas)
   ncops <- nlyr(tas) / nlyr(out)
   
-  b <- writeStart(out, filename, overwrite = TRUE, n = ncops)
+  b <- terra::writeStart(out, filename, overwrite = TRUE, n = ncops)
   
   for (i in 1:b$n) {
-    v <- readValues(tas, b$row[i], b$nrows[i], 1, nc, TRUE)
+    v <- terra::readValues(tas, b$row[i], b$nrows[i], 1, nc, TRUE)
     r <- fastBioClim::rcpp_parallel_average(v)
-    writeValues(out, r, b$row[i], b$nrows[i])
+    terra::writeValues(out, r, b$row[i], b$nrows[i])
   }
-  writeStop(out)
+  terra::writeStop(out)
   
 }
 

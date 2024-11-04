@@ -11,7 +11,8 @@ Imports:
     BH,
     dqrng,
     Rcpp (>= 1.0.13),
-    RcppParallel (>= 5.1.9)
+    RcppParallel (>= 5.1.9),
+    terra
 LinkingTo: Rcpp, RcppParallel, BH, dqrng
 SystemRequirements: GNU make
 RoxygenNote: 7.3.2
