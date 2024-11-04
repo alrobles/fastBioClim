@@ -17,7 +17,7 @@ bio_1 <- function(tas, filename = ""){
   nc <- ncol(tas)
   ncops <- nlyr(tas) / nlyr(out)
   
-  b <- writeStart(out, filename, overwrite = TRUE, n=ncops)
+  b <- writeStart(out, filename, overwrite = TRUE, n = ncops)
   
   for (i in 1:b$n) {
     v <- readValues(tas, b$row[i], b$nrows[i], 1, nc, TRUE)
