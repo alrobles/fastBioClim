@@ -12,10 +12,11 @@ bio_1 <- function(tas, filename = ""){
   terra::nlyr(out) <- 1
   nc <- terra::ncol(tas)
   terra::readStart(tas)
-  terra::on.exit(readStop(tas))
+  on.exit(terra::readStop(tas))
   nl <- terra::nlyr(tas)
   nc <- terra::ncol(tas)
   ncops <- nlyr(tas) / nlyr(out)
+
   
   b <- terra::writeStart(out, filename, overwrite = TRUE, n = ncops)
   
