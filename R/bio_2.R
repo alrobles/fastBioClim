@@ -22,7 +22,7 @@ bio_2 <- function(tasmax, tasmin, filename = ""){
   ncops <- nlyr(tasmax) / nlyr(out)
   
   b <- writeStart(out, filename, overwrite = TRUE, n=ncops)
-  #i = 1
+  
   for (i in 1:b$n) {
     v_1 <- readValues(tasmax, b$row[i], b$nrows[i], 1, nc, TRUE)
     r_1 <- fastBioClim::rcpp_parallel_average(v_1)
