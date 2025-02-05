@@ -35,9 +35,7 @@ struct matDiffParallel : public Worker {
                      difference);                 // function to apply
       
       //double result = std::accumulate(v1.begin(), v1.end(), 0.0)/v1.size();
-      for (std::size_t j = 0; j < mat_1.ncol(); j++) {
-        rmat(i, j) = diff[j];
-      }
+      rmat(i, 0) = diff[0];
       
     }
   }

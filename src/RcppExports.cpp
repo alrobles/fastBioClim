@@ -10,18 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rcpp_parallel_difference
-NumericMatrix rcpp_parallel_difference(NumericMatrix mat_1, NumericMatrix mat_2);
-RcppExport SEXP _fastBioClim_rcpp_parallel_difference(SEXP mat_1SEXP, SEXP mat_2SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type mat_2(mat_2SEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_difference(mat_1, mat_2));
-    return rcpp_result_gen;
-END_RCPP
-}
 // matrixMinInd
 int matrixMinInd(NumericMatrix x);
 RcppExport SEXP _fastBioClim_matrixMinInd(SEXP xSEXP) {
@@ -194,9 +182,56 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_get_avg_quarter
+NumericMatrix rcpp_get_avg_quarter(NumericMatrix quarter, NumericMatrix mat);
+RcppExport SEXP _fastBioClim_rcpp_get_avg_quarter(SEXP quarterSEXP, SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type quarter(quarterSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_avg_quarter(quarter, mat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_get_sum_quarter
+NumericMatrix rcpp_get_sum_quarter(NumericMatrix quarter, NumericMatrix mat);
+RcppExport SEXP _fastBioClim_rcpp_get_sum_quarter(SEXP quarterSEXP, SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type quarter(quarterSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat(matSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_sum_quarter(quarter, mat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_parallel_difference
+NumericMatrix rcpp_parallel_difference(NumericMatrix mat_1, NumericMatrix mat_2);
+RcppExport SEXP _fastBioClim_rcpp_parallel_difference(SEXP mat_1SEXP, SEXP mat_2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_2(mat_2SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_difference(mat_1, mat_2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_parallel_quotient
+NumericMatrix rcpp_parallel_quotient(NumericMatrix mat_1, NumericMatrix mat_2);
+RcppExport SEXP _fastBioClim_rcpp_parallel_quotient(SEXP mat_1SEXP, SEXP mat_2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_2(mat_2SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_quotient(mat_1, mat_2));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_fastBioClim_rcpp_parallel_difference", (DL_FUNC) &_fastBioClim_rcpp_parallel_difference, 2},
     {"_fastBioClim_matrixMinInd", (DL_FUNC) &_fastBioClim_matrixMinInd, 1},
     {"_fastBioClim_matrixMaxInd", (DL_FUNC) &_fastBioClim_matrixMaxInd, 1},
     {"_fastBioClim_vectorMaxInd", (DL_FUNC) &_fastBioClim_vectorMaxInd, 1},
@@ -212,6 +247,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastBioClim_rcpp_parallel_cumulative_sum", (DL_FUNC) &_fastBioClim_rcpp_parallel_cumulative_sum, 1},
     {"_fastBioClim_rcpp_parallel_variance", (DL_FUNC) &_fastBioClim_rcpp_parallel_variance, 1},
     {"_fastBioClim_rcpp_parallel_sd", (DL_FUNC) &_fastBioClim_rcpp_parallel_sd, 1},
+    {"_fastBioClim_rcpp_get_avg_quarter", (DL_FUNC) &_fastBioClim_rcpp_get_avg_quarter, 2},
+    {"_fastBioClim_rcpp_get_sum_quarter", (DL_FUNC) &_fastBioClim_rcpp_get_sum_quarter, 2},
+    {"_fastBioClim_rcpp_parallel_difference", (DL_FUNC) &_fastBioClim_rcpp_parallel_difference, 2},
+    {"_fastBioClim_rcpp_parallel_quotient", (DL_FUNC) &_fastBioClim_rcpp_parallel_quotient, 2},
     {NULL, NULL, 0}
 };
 

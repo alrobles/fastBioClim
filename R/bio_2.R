@@ -1,5 +1,4 @@
-library(terra)
-#' bio_1 Create monthly average temperature
+#' bio_1  Create mean diurnal temperature range
 #'
 #' @param filename the output where to write
 #' @param tasmax Maximum monthly temperature. A set of 12 raster of maximum temperature. 
@@ -21,7 +20,7 @@ bio_2 <- function(tasmax, tasmin, filename = ""){
   nc <- ncol(tasmax)
   ncops <- nlyr(tasmax) / nlyr(out)
   
-  b <- writeStart(out, filename, overwrite = TRUE, n=ncops)
+  b <- writeStart(out, filename, overwrite = TRUE, n = ncops)
   
   for (i in 1:b$n) {
     v_1 <- readValues(tasmax, b$row[i], b$nrows[i], 1, nc, TRUE)

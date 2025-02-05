@@ -1,9 +1,10 @@
-#' Bio 7. Max Temperature of Warmest Month
+#' Bio 7.  "annual range of air temperature"
+#' The difference between the Maximum Temperature of Warmest month and the Minimum Temperature of Coldest month
 #'
 #' @param tasmax Maximum monthly temperature. 
-#' @param filename the output filename
+#' @param tasmin Minimum monthly temperature. 
 #'
-#' @return A raster with the maximum value of the monthly temperature time series
+#' @return A raster with the range of temperature
 #' @export
 #'
 #' @examples
@@ -25,7 +26,7 @@ bio_7 <- function(tasmax, tasmin, filename = ""){
     r_1 <- fastBioClim::rcpp_parallel_which_max_row(v_1)
     v_2 <- readValues(tasmin, b$row[i], b$nrows[i], 1, nc, TRUE)
     r_2 <- fastBioClim::rcpp_parallel_which_min_row(v_2)
-    r <- fastBioClim::rcpp_parallel_difference(r_1 - r2)
+    r <- fastBioClim::rcpp_parallel_difference(r_1,  r2)
     writeValues(out, r, b$row[i], b$nrows[i])
   }
   writeStop(out)

@@ -32,10 +32,10 @@ NumericMatrix rcpp_parallel_cumulative_sum(NumericMatrix mat_1) {
   NumericMatrix rmat(mat_1.nrow(), 1);
   
   // create the worker
-  RowSumParallel rowrumparallel(mat_1, rmat);
+  RowSumParallel rowsumparallel(mat_1, rmat);
   
   // call it with parallelFor
-  parallelFor(0, mat_1.nrow(), rowrumparallel);
+  parallelFor(0, mat_1.nrow(), rowsumparallel);
   
   return rmat;
 }

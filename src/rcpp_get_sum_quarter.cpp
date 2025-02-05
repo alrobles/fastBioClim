@@ -1,0 +1,34 @@
+#include <Rcpp.h>
+#include <algorithm>
+
+using namespace Rcpp;
+
+inline double nansum (const double a, const double b)
+{
+  return a + (std::isnan(b) ? 0 : b);
+}
+
+// [[Rcpp::export]]
+NumericMatrix rcpp_get_sum_quarter(NumericMatrix quarter, NumericMatrix mat) {
+  
+  // allocate the matrix we will return
+  NumericMatrix rmat(mat.nrow(), 1);
+  
+  for (int i = 0; i < mat.nrow(); i++) {
+    double indexQuarter = quarter(i, 0);
+    
+    
+    double x1 = mat(i, indexQuarter);
+    double x2 = mat(i, indexQuarter + 1);
+    double x3 = mat(i, indexQuarter + 2);
+    
+    std::vector<double> vec = {x1, x2, x3};
+    
+    double result =  std::accumulate(vec.begin(),
+                                     vec.end(),
+                                     0.0, nansum);
+    rmat(i, 0) = result;
+  }
+  
+  return rmat;
+}
