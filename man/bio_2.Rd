@@ -2,7 +2,7 @@
 % Please edit documentation in R/bio_2.R
 \name{bio_2}
 \alias{bio_2}
-\title{bio_1 Create monthly average temperature}
+\title{bio_1  Create mean diurnal temperature range}
 \usage{
 bio_2(tasmax, tasmin, filename = "")
 }
@@ -17,5 +17,5 @@ bio_2(tasmax, tasmin, filename = "")
 a raster with the bio_2 variable
 }
 \description{
-bio_1 Create monthly average temperature
+bio_1  Create mean diurnal temperature range
 }

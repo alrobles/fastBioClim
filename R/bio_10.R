@@ -1,7 +1,7 @@
 #' bio 10. Mean Temperature of the warmest Quarter
 #'
 #' @param tas 
-#' @param filename 
+#' @param filename the output where to write
 #'
 #' @return
 #' @export A raster file. 

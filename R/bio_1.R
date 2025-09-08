@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
+#' 
 bio_1 <- function(tas, filename = ""){
-
     terra::app(x = tas, mean, filename = filename)
 }

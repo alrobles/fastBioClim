@@ -1,13 +1,13 @@
 #' bio 11. Mean Temperature of the coldest Quarter
 #'
 #' @param tas 
-#' @param filename 
+#' @param filename the output where to write
 #'
 #' @return
-#' @export A raster file. 
+#' @export  raster file. 
 #'
 #' @examples
-bio_11 <- function(tas){
+bio_11 <- function(tas, filename = ""){
   out <- rast(tas);
   nlyr(out) <- 1;
   nc <- ncol(tas);

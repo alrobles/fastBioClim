@@ -3,7 +3,7 @@
 #' @param tas Average monthly temperature raster with 12 layers
 #' @param filename the output where to write
 #'
-#' @return a raster with the bio_5 variable. Standard deviation of the average monthly temperature
+#' @return a raster with the bio_4 variable. Standard deviation of the average monthly temperature
 #' @export
 #'
 #' @examples

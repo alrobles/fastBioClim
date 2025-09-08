@@ -1,4 +1,4 @@
-#' Bio 5. Min Temperature of Coldest Month
+#' Bio 6. Min Temperature of Coldest Month
 #'
 #' @param tasmin Minimum monthly temperature. 
 #' @param filename the output filename

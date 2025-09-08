@@ -1,4 +1,4 @@
-#Mean Temperature of the driest Quarter
+# Mean Temperature of the driest Quarter
 #
 
 #' bio 9. Mean Temperature of driest Quarter. First we
@@ -10,7 +10,7 @@
 #'
 #' @param pr Monthly precipitation
 #' @param tas Monthly average temperature
-#' @param filename 
+#' @param filename the output where to write
 #'
 #' @return A raster with the mean temperature of the driest Quarter
 #' @export

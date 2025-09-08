@@ -2,18 +2,20 @@
 % Please edit documentation in R/bio_7.R
 \name{bio_7}
 \alias{bio_7}
-\title{Bio 7. Max Temperature of Warmest Month}
+\title{Bio 7.  "annual range of air temperature"
+The difference between the Maximum Temperature of Warmest month and the Minimum Temperature of Coldest month}
 \usage{
 bio_7(tasmax, tasmin, filename = "")
 }
 \arguments{
 \item{tasmax}{Maximum monthly temperature.}
 
-\item{filename}{the output filename}
+\item{tasmin}{Minimum monthly temperature.}
 }
 \value{
-A raster with the maximum value of the monthly temperature time series
+A raster with the range of temperature
 }
 \description{
-Bio 7. Max Temperature of Warmest Month
+Bio 7.  "annual range of air temperature"
+The difference between the Maximum Temperature of Warmest month and the Minimum Temperature of Coldest month
 }

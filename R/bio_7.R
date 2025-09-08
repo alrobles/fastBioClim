@@ -3,6 +3,7 @@
 #'
 #' @param tasmax Maximum monthly temperature. 
 #' @param tasmin Minimum monthly temperature. 
+#' @param filename the output where to write
 #'
 #' @return A raster with the range of temperature
 #' @export

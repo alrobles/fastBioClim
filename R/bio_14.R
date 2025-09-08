@@ -8,7 +8,7 @@
 #'
 #' @examples
 bio_14 <- function(pr, filename = ""){
-  out <- rast(pr)
+  out <- terra::rast(pr)
   nlyr(out) <- 1
   nc <- ncol(pr)
   readStart(pr)
@@ -22,7 +22,7 @@ bio_14 <- function(pr, filename = ""){
     v_1 <- readValues(pr, b$row[i], b$nrows[i], 1, nc, TRUE)
     r_1 <- fastBioClim::rcpp_parallel_which_min_row(v_1)
     r <- v_1[ ,r_1] 
-    writeValues(out, r, b$row[i], b$nrows[i])
+    terra::writeValues(out, r, b$row[i], b$nrows[i])
   }
   writeStop(out)
 }
