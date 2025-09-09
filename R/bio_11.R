@@ -21,11 +21,14 @@ bio_11 <- function(tas, filename = ""){
   
   for (i in 1:b$n) {
     v_1 <- readValues(tas, b$row[i], b$nrows[i], 1, nc, TRUE)
-    r_1 <- fastBioClim::rcpp_parallel_which_min_quarter(mat_1 = v_1[ ,1:(ncol(v_1) - 2)], mat_2 = v_1[ ,2:(ncol(v_1) - 1)], mat_3 = v_1[ , 3:v_1[ ,2:ncol(v_1)]]  )
+    r_1 <- fastBioClim::rcpp_parallel_which_min_quarter(mat_1 = v_1[ ,1:(ncol(v_1) - 2)],
+                                                        mat_2 = v_1[ ,2:(ncol(v_1) - 1)], 
+                                                        mat_3 = v_1[ ,3:(ncol(v_1) )]
+                                                        )
     #fix name maxQuarter
     r <- fastBioClim::rcpp_get_max_quarter(maxQuarter = r_1, mat = v_1);
     writeValues(out, r, b$row[i], b$nrows[i]);
   }
   
-  
+  writeStop(out)
 }
