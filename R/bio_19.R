@@ -33,4 +33,5 @@ bio_19 <- function(pr, tasmin, filename = ""){
     r <- fastBioClim::rcpp_get_max_quarter(maxQuarter = r_1, mat = v_2);
     writeValues(out, r, b$row[i], b$nrows[i]);
   }
+  writeStop(out);
 }

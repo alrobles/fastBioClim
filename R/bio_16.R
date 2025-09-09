@@ -28,4 +28,5 @@ bio_16 <- function(pr, filename = ""){
     r <- fastBioClim::rcpp_get_max_quarter(maxQuarter = r_1, mat = v_1);
     writeValues(out, r, b$row[i], b$nrows[i]);
   }
+  writeStop(out);
 }
