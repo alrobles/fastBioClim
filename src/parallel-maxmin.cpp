@@ -27,8 +27,9 @@ struct MaxMonth : public Worker {
       //Index for maximum of a matrix
       
       double result = std::max_element(v1.begin(), v1.end()) - v1.begin();
-      rmat(i, 0) = result;
-      // rmat(i, 0) = v1[result]; this return the value itself
+      //rmat(i, 0) = result;
+      // this return the value itself
+      rmat(i, 0) = v1[result];
     }
   }
 };
@@ -71,7 +72,8 @@ struct MinMonth : public Worker {
       //Index for maximum of a matrix
       
       double result = std::min_element(v1.begin(), v1.end()) - v1.begin();
-      rmat(i, 0) = result;
+      //rmat(i, 0) = result;
+      rmat(i, 0) = v1[result];
     }
   }
 };

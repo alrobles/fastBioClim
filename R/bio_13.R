@@ -20,8 +20,8 @@ bio_13 <- function(pr, filename = ""){
   b <- writeStart(out, filename, overwrite = TRUE, n=ncops)
   for (i in 1:b$n) {
     v_1 <- readValues(pr, b$row[i], b$nrows[i], 1, nc, TRUE)
-    r_1 <- fastBioClim::rcpp_parallel_which_max_row(v_1)
-    r <- v_1[ ,r_1] 
+    r <- fastBioClim::rcpp_parallel_which_max_row(v_1)
+    ##r <- v_1[ ,r_1] 
     writeValues(out, r, b$row[i], b$nrows[i])
   }
   writeStop(out)
