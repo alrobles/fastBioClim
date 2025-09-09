@@ -33,7 +33,8 @@ bio_8 <- function(pr, tas, filename = ""){
     v_1 <- readValues(pr, b$row[i], b$nrows[i], 1, nc, TRUE)
     r_1 <- fastBioClim::rcpp_parallel_which_max_quarter(mat_1 = v_1[  ,1:(ncol(v_1) - 2)],
                                                         mat_2 = v_1[  ,2:(ncol(v_1) - 1)],
-                                                        mat_3 = v_1[  ,3:ncol(v_1)]  )
+                                                        mat_3 = v_1[  ,3:ncol(v_1)]
+                                                        )
     v_2 <- readValues(tas, b$row[i], b$nrows[i], 1, nc, TRUE);
     r <- fastBioClim::rcpp_get_max_quarter(maxQuarter = r_1, mat = v_2);
     writeValues(out, r, b$row[i], b$nrows[i]);
