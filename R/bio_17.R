@@ -7,7 +7,7 @@
 #' @export A raster file. 
 #'
 #' @examples
-bio17 <- function(pr, filename = ""){
+bio_17 <- function(pr, filename = ""){
   out <- rast(pr);
   nlyr(out) <- 1;
   nc <- ncol(pr);
