@@ -2,7 +2,7 @@
 #' bio 19, Precipitation of Coldest Quarter  
 #'
 #' @param pr Monthly precipiation
-#' @param tasmin Maximum monthly temperature 
+#' @param tasmin Minimum monthly temperature 
 #' @param filename Output filename
 #'
 #' @return
@@ -14,8 +14,8 @@ bio_19 <- function(pr, tasmin, filename = ""){
   nlyr(out) <- 1;
   nc <- ncol(pr);
   readStart(pr);
-  readStart(tasmin);
   on.exit(readStop(pr));
+  readStart(tasmin);
   on.exit(readStop(tasmin));
   nl <- nlyr(pr);
   nc <- ncol(pr);
