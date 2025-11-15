@@ -1,7 +1,7 @@
 Package: fastbioclim
 Type: Package
 Title: RcppParallel Calculation of Bioclimatic Variables
-Version: 0.0.1
+Version: 0.0.1.9000
 Author: Angel Robles
 Maintainer: Angel Luis Robles Fernandez <a.l.robles.fernandez@gmail.com>
 Description: Get bioclimatic variables from monthly raster time series of
