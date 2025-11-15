@@ -4,3 +4,6 @@
 ^NAMESPACE_template$
 ^draft
 ^scripts
+^R_sandbox$
+^src_sandbox$
+^LICENSE\.md$
