@@ -3,3 +3,6 @@
 export(mock_tas)
 export(mock_tasmax)
 export(mock_tasmin)
+export(rcpp_parallel_average)
+importFrom(Rcpp,sourceCpp)
+useDynLib(fastbioclim, .registration = TRUE)

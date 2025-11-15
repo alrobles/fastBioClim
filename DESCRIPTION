@@ -14,6 +14,9 @@ Imports:
     RcppParallel (>= 5.1.9),
     terra (>= 1.7-83)
 LinkingTo: Rcpp, RcppParallel, BH, dqrng
-SystemRequirements: GNU make
+SystemRequirements: GNU make, C++11
 RoxygenNote: 7.3.3
 Encoding: UTF-8
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

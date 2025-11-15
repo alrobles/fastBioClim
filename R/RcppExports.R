@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 rcpp_parallel_average <- function(mat_1) {
-    .Call('_fastbioclim_rcpp_parallel_average', PACKAGE = 'fastbioclim', mat_1)
+    .Call(`_fastbioclim_rcpp_parallel_average`, mat_1)
 }
 
