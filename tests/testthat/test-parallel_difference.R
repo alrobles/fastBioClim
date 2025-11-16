@@ -16,14 +16,18 @@ test_that("parallel_difference computes element-wise differences correctly", {
 
 test_that("parallel_difference fails with non-matrix input", {
   wrong_input <- c(1, 2, 3)
-  expect_error(parallel_difference(wrong_input, wrong_input),
-               "Must be of type 'matrix'")
+  expect_error(
+    parallel_difference(wrong_input, wrong_input),
+    "Must be of type 'matrix'"
+  )
 })
 
 test_that("parallel_difference fails with non-numeric matrix", {
   wrong_input <- matrix(letters[1:4], nrow = 2)
-  expect_error(parallel_difference(wrong_input, wrong_input),
-               "Must store numerics")
+  expect_error(
+    parallel_difference(wrong_input, wrong_input),
+    "Must store numerics"
+  )
 })
 
 test_that("parallel_difference fails with NA values", {
