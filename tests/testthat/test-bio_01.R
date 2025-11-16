@@ -4,17 +4,17 @@ library(checkmate)
 
 test_that("bio_01 computes annual mean temperature correctly", {
   tas <- mock_tas()
-
+  
   result <- bio_01(tas)
-
+  
   # Output should be SpatRaster with one layer
   expect_s4_class(result, "SpatRaster")
   expect_equal(nlyr(result), 1)
-
+  
   # Expected mean: average of 1:12 = 6.5
   expected_mean <- mean(1:12)
   vals <- values(result)
-
+  
   expect_true(all(vals == expected_mean))
 })
 

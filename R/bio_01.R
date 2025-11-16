@@ -12,19 +12,19 @@ bio_01 <- function(tas, filename = "") {
   # --- Assertions using checkmate ---
   checkmate::assert_class(tas, "SpatRaster")
   checkmate::assert_true(terra::nlyr(tas) == 12,
-    .var.name = "tas must have 12 layers (monthly data)"
+                         .var.name = "tas must have 12 layers (monthly data)"
   )
   checkmate::assert_string(filename, null.ok = TRUE)
-
+  
   # Create output raster (single layer)
   out <- terra::rast(tas, nlyr = 1)
-
+  
   # Start reading and writing
   terra::readStart(tas)
   on.exit(terra::readStop(tas))
-
+  
   ncols <- terra::ncol(tas)
-
+  
   b <- terra::writeStart(out, filename, overwrite = TRUE)
   
   for (i in 1:b$n) {
@@ -41,7 +41,7 @@ bio_01 <- function(tas, filename = "") {
     terra::writeValues(out, v = r, b$row[i], b$nrows[i])
   }
 
-
   terra::writeStop(out)
+  names(out) <- "bio_01"
   out
 }

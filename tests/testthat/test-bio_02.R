@@ -7,13 +7,13 @@ test_that("bio_02 computes mean diurnal temperature range correctly", {
   tasmax <- mock_tas()
   # values same as month number (same for simplicity)
   tasmin <- mock_tas()
-
+  
   result <- bio_02(tasmax, tasmin)
-
+  
   # Output should be SpatRaster with one layer
   expect_s4_class(result, "SpatRaster")
   expect_equal(nlyr(result), 1)
-
+  
   # Expected difference: mean(tasmax) - mean(tasmin) = 6.5 - 6.5 = 0
   vals <- values(result)
   expect_true(all(vals == 0))
