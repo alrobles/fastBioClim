@@ -21,9 +21,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_parallel_difference
+NumericMatrix rcpp_parallel_difference(NumericMatrix mat_1, NumericMatrix mat_2);
+RcppExport SEXP _fastbioclim_rcpp_parallel_difference(SEXP mat_1SEXP, SEXP mat_2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_2(mat_2SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_difference(mat_1, mat_2));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_fastbioclim_rcpp_parallel_average", (DL_FUNC) &_fastbioclim_rcpp_parallel_average, 1},
+    {"_fastbioclim_rcpp_parallel_difference", (DL_FUNC) &_fastbioclim_rcpp_parallel_difference, 2},
     {NULL, NULL, 0}
 };
 

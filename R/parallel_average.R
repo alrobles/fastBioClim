@@ -9,10 +9,11 @@
 parallel_average <- function(mat) {
   # --- Assertions using checkmate ---
   checkmate::assert_matrix(mat,
-                           mode = "numeric",
-                           any.missing = FALSE,
-                           min.rows = 1,
-                           min.cols = 1)
+    mode = "numeric",
+    any.missing = FALSE,
+    min.rows = 1,
+    min.cols = 1
+  )
 
   # Call C++ implementation
   rcpp_parallel_average(mat)
