@@ -10,7 +10,7 @@ parallel_average(mat)
 \item{mat}{A numeric matrix}
 }
 \value{
-A numeric matrix with one column containing row means
+A numeric vector containing row means
 }
 \description{
 Compute row means in parallel

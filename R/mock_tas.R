@@ -23,18 +23,20 @@
 #'
 #' @seealso \code{\link[terra]{rast}}, \code{\link[terra]{SpatRaster}}
 #' @export
-mock_tas <- function(){
+mock_tas <- function() {
   # Define dimensions
   nrows <- 20
   ncols <- 20
 
   # Create empty SpatRaster template using WGS84
-  r_template <- terra::rast(nrows = nrows, ncols = ncols,
-                            xmin = -180, xmax = 180,
-                            ymin = -90, ymax = 90,
-                            crs = "EPSG:4326")
+  r_template <- terra::rast(
+    nrows = nrows, ncols = ncols,
+    xmin = -180, xmax = 180,
+    ymin = -90, ymax = 90,
+    crs = "EPSG:4326"
+  )
 
-  # Generate 12 monthly rasters with values = month * 2
+  # Generate 12 monthly rasters with values = month
   rasters <- list()
   for (month in 1:12) {
     r <- r_template
@@ -50,4 +52,3 @@ mock_tas <- function(){
 
   tas_stack
 }
-

@@ -24,16 +24,18 @@
 #' @seealso \code{\link[terra]{rast}}, \code{\link[terra]{SpatRaster}}
 #'
 #' @export
-mock_tasmax <- function(){
+mock_tasmax <- function() {
   # Define dimensions
   nrows <- 20
   ncols <- 20
 
   # Create empty SpatRaster template using WGS84
-  r_template <- terra::rast(nrows = nrows, ncols = ncols,
-                            xmin = -180, xmax = 180,
-                            ymin = -90, ymax = 90,
-                            crs = "EPSG:4326")
+  r_template <- terra::rast(
+    nrows = nrows, ncols = ncols,
+    xmin = -180, xmax = 180,
+    ymin = -90, ymax = 90,
+    crs = "EPSG:4326"
+  )
 
   # Generate 12 monthly rasters with values = month * 2
   rasters <- list()
@@ -51,4 +53,3 @@ mock_tasmax <- function(){
 
   tasmax_stack
 }
-

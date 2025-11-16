@@ -9,13 +9,13 @@
 #' tas_example <- mock_tas()
 #' bio_01(tas_example)
 bio_01 <- function(tas, filename = "") {
-  
   # --- Assertions using checkmate ---
   checkmate::assert_class(tas, "SpatRaster")
-  checkmate::assert_true(terra::nlyr(tas) == 12, 
-                         .var.name = "tas must have 12 layers (monthly data)")
+  checkmate::assert_true(terra::nlyr(tas) == 12,
+    .var.name = "tas must have 12 layers (monthly data)"
+  )
   checkmate::assert_string(filename, null.ok = TRUE)
-  
+
   # Create output raster (single layer)
   out <- terra::rast(tas, nlyr = 1)
 
@@ -23,21 +23,21 @@ bio_01 <- function(tas, filename = "") {
   terra::readStart(tas)
   on.exit(terra::readStop(tas))
 
-  nc <- terra::nlyr(tas)
   ncols <- terra::ncol(tas)
 
   b <- terra::writeStart(out, filename, overwrite = TRUE)
 
   for (i in 1:b$n) {
-    v <- terra::readValues(x = tas,
-                           row = b$row[i],
-                           nrows =  b$nrows[i],
-                           col = 1,
-                           ncols = ncols,
-                           mat = TRUE)
+    v <- terra::readValues(
+      x = tas,
+      row = b$row[i],
+      nrows = b$nrows[i],
+      col = 1,
+      ncols = ncols,
+      mat = TRUE
+    )
     # Compute row means across 12 months
     r <- parallel_average(v)
-    #print(r)
     terra::writeValues(out, v = r, b$row[i], b$nrows[i])
   }
 
