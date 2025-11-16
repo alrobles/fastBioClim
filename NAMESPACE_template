@@ -1,4 +1,0 @@
-useDynLib(fastBioClim, .registration=TRUE)
-importFrom(Rcpp, evalCpp)
-exportPattern("^[[:alpha:]]+")
-importFrom(RcppParallel,RcppParallelLibs)

@@ -1,5 +1,0 @@
-#compile routine
-run Rcpp::compileAttributes()
-run devtools::document()
-manually add importFrom(RcppParallel, RcppParallelLibs) to the NAMESPACE file
-run devtools::install("MyPackage",quick = TRUE,upgrade="never")

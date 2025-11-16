@@ -17,13 +17,15 @@ intended for testing and unit validation of functions that process CHELSA
 climate data.
 }
 \details{
-- The stack contains 12 layers, one for each month (January–December).
-- Each layer is a 20 × 20 grid of constant values.
-- The value in each layer equals \code{month * 2}, i.e. January = 2,
-  February = 4, ..., December = 24.
-- The projection is WGS84 (\code{EPSG:4326}), consistent with CHELSA rasters.
-- Layer names follow CHELSA convention:
+\itemize{
+\item The stack contains 12 layers, one for each month (January–December).
+\item Each layer is a 20 × 20 grid of constant values.
+\item The value in each layer equals \code{month - 1}, i.e. January = 0,
+February = 1, ..., December = 11.
+\item The projection is WGS84 (\code{EPSG:4326}), consistent with CHELSA rasters.
+\item Layer names follow CHELSA convention:
 \code{tasmin_01}, \code{tasmin_02}, ..., \code{tasmin_12}.
+}
 }
 \examples{
 # Create mock tasmin stack
