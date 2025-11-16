@@ -1,8 +1,35 @@
-#' bio_01  Create annual mean temperature (BIO1)
+
+#' bio_01  Annual Mean Temperature (BIO1)
 #'
-#' @param tas A SpatRaster with 12 layers (monthly mean temperature).
+#' Computes BIO1, the annual mean temperature, from monthly mean temperature
+#' rasters following the CHELSA Bioclimatic Variables framework.
+#'
+#' @details
+#' This function implements the calculation of BIO1 as described in:
+#' - Karger et al. (2022) "CHELSA V2.1: High-resolution monthly and annual
+#'   climatologies for the earth land surface areas" *Earth System Science Data*,
+#'   14, 5573–5610. <https://essd.copernicus.org/articles/14/5573/2022/>
+#' - CHELSA Bioclim dataset: <https://www.chelsa-climate.org/datasets/chelsa_bioclim>
+#'
+#' The concept of bioclimatic variables originates from:
+#' - Nix, H.A. (1986) and further formalized by:
+#' - Hijmans, R.J., Cameron, S.E., Parra, J.L., Jones, P.G., & Jarvis, A. (2005).
+#'   "Very high resolution interpolated climate surfaces for global land areas"
+#'   *International Journal of Climatology*, 25(15), 1965–1978.
+#'   DOI: <https://doi.org/10.1002/joc.1276>
+#'
+#' @param tas A [terra::SpatRaster] with 12 layers representing monthly mean
+#'   temperature (January–December).
 #' @param filename Optional file path to write the output raster.
-#' @return A SpatRaster with one layer representing BIO1.
+#'
+#' @return A [terra::SpatRaster] with one layer representing BIO1 (annual mean temperature).
+#'
+#' @references
+#' Karger, D.N., et al. (2022). CHELSA V2.1: High-resolution monthly and annual
+#' climatologies for the earth land surface areas. *Earth System Science Data*, 14, 5573–5610.
+#' Hijmans, R.J., et al. (2005). Very high resolution interpolated climate surfaces for global land areas.
+#' *International Journal of Climatology*, 25(15), 1965–1978.
+#'
 #' @export
 #'
 #' @examples

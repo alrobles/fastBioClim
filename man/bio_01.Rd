@@ -2,22 +2,48 @@
 % Please edit documentation in R/bio_01.R
 \name{bio_01}
 \alias{bio_01}
-\title{bio_01  Create annual mean temperature (BIO1)}
+\title{bio_01  Annual Mean Temperature (BIO1)}
 \usage{
 bio_01(tas, filename = "")
 }
 \arguments{
-\item{tas}{A SpatRaster with 12 layers (monthly mean temperature).}
+\item{tas}{A \link[terra:SpatRaster-class]{terra::SpatRaster} with 12 layers representing monthly mean
+temperature (January–December).}
 
 \item{filename}{Optional file path to write the output raster.}
 }
 \value{
-A SpatRaster with one layer representing BIO1.
+A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing BIO1 (annual mean temperature).
 }
 \description{
-bio_01  Create annual mean temperature (BIO1)
+Computes BIO1, the annual mean temperature, from monthly mean temperature
+rasters following the CHELSA Bioclimatic Variables framework.
+}
+\details{
+This function implements the calculation of BIO1 as described in:
+\itemize{
+\item Karger et al. (2022) "CHELSA V2.1: High-resolution monthly and annual
+climatologies for the earth land surface areas" \emph{Earth System Science Data},
+14, 5573–5610. \url{https://essd.copernicus.org/articles/14/5573/2022/}
+\item CHELSA Bioclim dataset: \url{https://www.chelsa-climate.org/datasets/chelsa_bioclim}
+}
+
+The concept of bioclimatic variables originates from:
+\itemize{
+\item Nix, H.A. (1986) and further formalized by:
+\item Hijmans, R.J., Cameron, S.E., Parra, J.L., Jones, P.G., & Jarvis, A. (2005).
+"Very high resolution interpolated climate surfaces for global land areas"
+\emph{International Journal of Climatology}, 25(15), 1965–1978.
+DOI: \url{https://doi.org/10.1002/joc.1276}
+}
 }
 \examples{
 tas_example <- mock_tas()
 bio_01(tas_example)
+}
+\references{
+Karger, D.N., et al. (2022). CHELSA V2.1: High-resolution monthly and annual
+climatologies for the earth land surface areas. \emph{Earth System Science Data}, 14, 5573–5610.
+Hijmans, R.J., et al. (2005). Very high resolution interpolated climate surfaces for global land areas.
+\emph{International Journal of Climatology}, 25(15), 1965–1978.
 }
