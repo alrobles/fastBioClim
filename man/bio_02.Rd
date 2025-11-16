@@ -7,18 +7,22 @@
 bio_02(tasmax, tasmin, filename = "")
 }
 \arguments{
-\item{tasmax}{A \link[terra:SpatRaster-class]{terra::SpatRaster} with 12 layers representing monthly maximum temperature.}
+\item{tasmax}{A \link[terra:SpatRaster-class]{terra::SpatRaster} with 12 layers representing monthly
+maximum temperature.}
 
-\item{tasmin}{A \link[terra:SpatRaster-class]{terra::SpatRaster} with 12 layers representing monthly minimum temperature.}
+\item{tasmin}{A \link[terra:SpatRaster-class]{terra::SpatRaster} with 12 layers representing monthly
+minimum temperature.}
 
 \item{filename}{Optional file path to write the output raster.}
 }
 \value{
-A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing BIO2 (mean diurnal temperature range).
+A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing BIO2 (mean diurnal
+temperature range).
 }
 \description{
 Computes BIO2, the mean diurnal temperature range, from monthly maximum and
-minimum temperature rasters following the CHELSA Bioclimatic Variables framework.
+minimum temperature rasters following the CHELSA Bioclimatic Variables
+framework.
 }
 \details{
 BIO2 is defined as the mean of monthly diurnal temperature ranges, where each
@@ -26,15 +30,18 @@ monthly range is the difference between maximum and minimum temperature.
 This implementation follows:
 \itemize{
 \item Karger et al. (2022) "CHELSA V2.1: High-resolution monthly and annual
-climatologies for the earth land surface areas" \emph{Earth System Science Data},
+climatologies for the earth land surface areas"
+\emph{Earth System Science Data},
 14, 5573–5610. \url{https://essd.copernicus.org/articles/14/5573/2022/}
-\item CHELSA Bioclim dataset: \url{https://www.chelsa-climate.org/datasets/chelsa_bioclim}
+\item CHELSA Bioclim dataset:
+\url{https://www.chelsa-climate.org/datasets/chelsa_bioclim}
 }
 
 The concept of bioclimatic variables originates from:
 \itemize{
 \item Nix, H.A. (1986) and was formalized by:
-\item Hijmans, R.J., Cameron, S.E., Parra, J.L., Jones, P.G., & Jarvis, A. (2005).
+\item Hijmans, R.J., Cameron, S.E., Parra, J.L., Jones, P.G., &
+Jarvis, A. (2005).
 "Very high resolution interpolated climate surfaces for global land areas"
 \emph{International Journal of Climatology}, 25(15), 1965–1978.
 DOI: \url{https://doi.org/10.1002/joc.1276}
@@ -47,7 +54,9 @@ bio_02(tmax, tmin)
 }
 \references{
 Karger, D.N., et al. (2022). CHELSA V2.1: High-resolution monthly and annual
-climatologies for the earth land surface areas. \emph{Earth System Science Data}, 14, 5573–5610.
-Hijmans, R.J., et al. (2005). Very high resolution interpolated climate surfaces for global land areas.
+climatologies for the earth land surface areas. \emph{Earth System Science Data},
+14, 5573–5610.
+Hijmans, R.J., et al. (2005). Very high resolution interpolated climate
+surfaces for global land areas.
 \emph{International Journal of Climatology}, 25(15), 1965–1978.
 }

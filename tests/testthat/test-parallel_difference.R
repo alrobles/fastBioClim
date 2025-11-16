@@ -4,12 +4,12 @@ library(checkmate)
 test_that("parallel_difference computes element-wise differences correctly", {
   mat1 <- matrix(1:9, nrow = 3)
   mat2 <- matrix(9:1, nrow = 3)
-  
+
   result <- parallel_difference(mat1, mat2)
-  
+
   # Expected result: mat1 - mat2
   expected <- mat1 - mat2
-  
+
   expect_matrix(result, mode = "numeric", nrows = 3, ncols = 3)
   expect_equal(result, expected)
 })

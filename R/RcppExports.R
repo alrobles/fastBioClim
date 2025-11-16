@@ -9,3 +9,11 @@ rcpp_parallel_difference <- function(mat_1, mat_2) {
     .Call(`_fastbioclim_rcpp_parallel_difference`, mat_1, mat_2)
 }
 
+rcpp_parallel_variance <- function(mat_1) {
+    .Call(`_fastbioclim_rcpp_parallel_variance`, mat_1)
+}
+
+rcpp_parallel_sd <- function(mat_1) {
+    .Call(`_fastbioclim_rcpp_parallel_sd`, mat_1)
+}
+

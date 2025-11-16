@@ -33,10 +33,34 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_parallel_variance
+NumericMatrix rcpp_parallel_variance(NumericMatrix mat_1);
+RcppExport SEXP _fastbioclim_rcpp_parallel_variance(SEXP mat_1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_variance(mat_1));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_parallel_sd
+NumericMatrix rcpp_parallel_sd(NumericMatrix mat_1);
+RcppExport SEXP _fastbioclim_rcpp_parallel_sd(SEXP mat_1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_sd(mat_1));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_fastbioclim_rcpp_parallel_average", (DL_FUNC) &_fastbioclim_rcpp_parallel_average, 1},
     {"_fastbioclim_rcpp_parallel_difference", (DL_FUNC) &_fastbioclim_rcpp_parallel_difference, 2},
+    {"_fastbioclim_rcpp_parallel_variance", (DL_FUNC) &_fastbioclim_rcpp_parallel_variance, 1},
+    {"_fastbioclim_rcpp_parallel_sd", (DL_FUNC) &_fastbioclim_rcpp_parallel_sd, 1},
     {NULL, NULL, 0}
 };
 

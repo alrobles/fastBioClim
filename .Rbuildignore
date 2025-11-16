@@ -7,3 +7,4 @@
 ^R_sandbox$
 ^src_sandbox$
 ^LICENSE\.md$
+^tests/testthat/test-sd-benchmark\.R$

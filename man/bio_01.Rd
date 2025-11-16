@@ -13,7 +13,8 @@ temperature (January–December).}
 \item{filename}{Optional file path to write the output raster.}
 }
 \value{
-A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing BIO1 (annual mean temperature).
+A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing BIO1
+(annual mean temperature).
 }
 \description{
 Computes BIO1, the annual mean temperature, from monthly mean temperature
@@ -23,15 +24,18 @@ rasters following the CHELSA Bioclimatic Variables framework.
 This function implements the calculation of BIO1 as described in:
 \itemize{
 \item Karger et al. (2022) "CHELSA V2.1: High-resolution monthly and annual
-climatologies for the earth land surface areas" \emph{Earth System Science Data},
+climatologies for the earth land surface areas"
+\emph{Earth System Science Data},
 14, 5573–5610. \url{https://essd.copernicus.org/articles/14/5573/2022/}
-\item CHELSA Bioclim dataset: \url{https://www.chelsa-climate.org/datasets/chelsa_bioclim}
+\item CHELSA Bioclim dataset:
+\url{https://www.chelsa-climate.org/datasets/chelsa_bioclim}
 }
 
 The concept of bioclimatic variables originates from:
 \itemize{
 \item Nix, H.A. (1986) and further formalized by:
-\item Hijmans, R.J., Cameron, S.E., Parra, J.L., Jones, P.G., & Jarvis, A. (2005).
+\item Hijmans, R.J., Cameron, S.E., Parra, J.L., Jones, P.G., & Jarvis,
+A. (2005).
 "Very high resolution interpolated climate surfaces for global land areas"
 \emph{International Journal of Climatology}, 25(15), 1965–1978.
 DOI: \url{https://doi.org/10.1002/joc.1276}
@@ -43,7 +47,9 @@ bio_01(tas_example)
 }
 \references{
 Karger, D.N., et al. (2022). CHELSA V2.1: High-resolution monthly and annual
-climatologies for the earth land surface areas. \emph{Earth System Science Data}, 14, 5573–5610.
-Hijmans, R.J., et al. (2005). Very high resolution interpolated climate surfaces for global land areas.
+climatologies for the earth land surface areas. \emph{Earth System Science Data},
+14, 5573–5610.
+Hijmans, R.J., et al. (2005). Very high resolution interpolated climate
+surfaces for global land areas.
 \emph{International Journal of Climatology}, 25(15), 1965–1978.
 }

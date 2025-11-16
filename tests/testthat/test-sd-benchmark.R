@@ -1,0 +1,121 @@
+test_that("performance benchmark for parallel_sd and parallel_variance", {
+  skip_on_cran()
+  skip_if_not_installed("microbenchmark")
+
+  set.seed(2025)
+  nr <- 1e4
+  nc <- 12
+  mat <- matrix(rnorm(nr * nc, mean = 10, sd = 3), nrow = nr, ncol = nc)
+
+  # Sanity
+  expect_true(is.function(parallel_sd))
+  expect_true(is.function(parallel_variance))
+
+  # --- SD benchmark ---
+  mb_sd <- microbenchmark::microbenchmark(
+    base_sd = apply(mat, 1, sd),
+    cpp_sd = parallel_sd(mat),
+    times = 10L
+  )
+  summary_sd <- summary(mb_sd)
+  expr_sd_chr <- as.character(summary_sd$expr)
+  med_sd_ms_vec <- summary_sd$median / 1e6
+
+  # Robust label resolution: support both named and literal expressions
+  base_idx_sd <- grepl("^base_sd$", expr_sd_chr) |
+    grepl("^apply\\(.*sd\\)$", expr_sd_chr)
+  cpp_idx_sd <- grepl("^cpp_sd$", expr_sd_chr) |
+    grepl("^parallel_sd\\(", expr_sd_chr)
+
+  base_sd_median_ms <- if (any(base_idx_sd)) {
+    med_sd_ms_vec[which(base_idx_sd)[1]]
+  } else {
+    NA_real_
+  }
+  cpp_sd_median_ms <- if (any(cpp_idx_sd)) {
+    med_sd_ms_vec[which(cpp_idx_sd)[1]]
+  } else {
+    NA_real_
+  }
+
+  # Correctness checks
+  res_base_sd <- apply(mat, 1, sd)
+  res_cpp_sd <- parallel_sd(mat)
+  expect_numeric(res_base_sd, len = nr)
+  expect_numeric(res_cpp_sd, len = nr)
+  expect_equal(res_cpp_sd, res_base_sd, tolerance = 1e-8)
+
+  # Diagnostics
+  ratio_sd <- if (!is.na(base_sd_median_ms) && base_sd_median_ms != 0) {
+    cpp_sd_median_ms / base_sd_median_ms
+  } else {
+    NA_real_
+  }
+  message(sprintf(
+    "SD median times (ms): base=%s, cpp=%s (ratio cpp/base=%s)",
+    ifelse(is.na(base_sd_median_ms), "NA", sprintf("%.2f", base_sd_median_ms)),
+    ifelse(is.na(cpp_sd_median_ms), "NA", sprintf("%.2f", cpp_sd_median_ms)),
+    ifelse(is.na(ratio_sd), "NA", sprintf("%.2f", ratio_sd))
+  ))
+
+  # Soft performance guard (only if we have a valid ratio)
+  if (!is.na(ratio_sd)) expect_lt(cpp_sd_median_ms, base_sd_median_ms * 2.5)
+
+  # --- Variance benchmark ---
+  mb_var <- microbenchmark::microbenchmark(
+    base_var = apply(mat, 1, var),
+    cpp_var = parallel_variance(mat),
+    times = 3L
+  )
+  sum_var <- summary(mb_var)
+  expr_var_chr <- as.character(sum_var$expr)
+  med_var_ms_vec <- sum_var$median / 1e6
+
+  base_idx_var <- grepl("^base_var$", expr_var_chr) |
+    grepl("^apply\\(.*var\\)$", expr_var_chr)
+  cpp_idx_var <- grepl("^cpp_var$", expr_var_chr) |
+    grepl("^parallel_variance\\(", expr_var_chr)
+
+  base_var_median_ms <- if (any(base_idx_var)) {
+    med_var_ms_vec[which(base_idx_var)[1]]
+  } else {
+    NA_real_
+  }
+  cpp_var_median_ms <- if (any(cpp_idx_var)) {
+    med_var_ms_vec[which(cpp_idx_var)[1]]
+  } else {
+    NA_real_
+  }
+
+  res_base_var <- apply(mat, 1, var)
+  res_cpp_var <- parallel_variance(mat)
+  expect_numeric(res_base_var, len = nr)
+  expect_numeric(res_cpp_var, len = nr)
+  expect_equal(res_cpp_var, res_base_var, tolerance = 1e-8)
+
+  ratio_var <- if (!is.na(base_var_median_ms) && base_var_median_ms != 0) {
+    cpp_var_median_ms / base_var_median_ms
+  } else {
+    NA_real_
+  }
+  message(sprintf(
+    "VAR median times (ms): base=%s, cpp=%s (ratio cpp/base=%s)",
+    ifelse(is.na(base_var_median_ms), "NA",
+      sprintf("%.2f", base_var_median_ms)
+    ),
+    ifelse(is.na(cpp_var_median_ms), "NA",
+      sprintf("%.2f", cpp_var_median_ms)
+    ),
+    ifelse(is.na(ratio_var), "NA",
+      sprintf("%.2f", ratio_var)
+    )
+  ))
+
+  if (!is.na(ratio_var)) expect_lt(cpp_var_median_ms, base_var_median_ms * 2.5)
+
+  # Optional interactive prints (won't affect automated runs)
+  if (interactive()) {
+    print(mb_sd)
+    print(mb_var)
+  }
+})
