@@ -1,7 +1,7 @@
 Package: fastbioclim
 Type: Package
 Title: RcppParallel Calculation of Bioclimatic Variables
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: 
     person("Angel", "Robles", , "a.l.robles.fernandez@gmail.com", role = c("aut", "cre"))
 Description: Get bioclimatic variables from monthly raster time series of
