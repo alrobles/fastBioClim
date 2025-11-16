@@ -21,6 +21,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_parallel_which_max_row
+NumericMatrix rcpp_parallel_which_max_row(NumericMatrix mat_1);
+RcppExport SEXP _fastbioclim_rcpp_parallel_which_max_row(SEXP mat_1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_which_max_row(mat_1));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_parallel_which_min_row
+NumericMatrix rcpp_parallel_which_min_row(NumericMatrix mat_1);
+RcppExport SEXP _fastbioclim_rcpp_parallel_which_min_row(SEXP mat_1SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_which_min_row(mat_1));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_parallel_difference
 NumericMatrix rcpp_parallel_difference(NumericMatrix mat_1, NumericMatrix mat_2);
 RcppExport SEXP _fastbioclim_rcpp_parallel_difference(SEXP mat_1SEXP, SEXP mat_2SEXP) {
@@ -58,6 +80,8 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_fastbioclim_rcpp_parallel_average", (DL_FUNC) &_fastbioclim_rcpp_parallel_average, 1},
+    {"_fastbioclim_rcpp_parallel_which_max_row", (DL_FUNC) &_fastbioclim_rcpp_parallel_which_max_row, 1},
+    {"_fastbioclim_rcpp_parallel_which_min_row", (DL_FUNC) &_fastbioclim_rcpp_parallel_which_min_row, 1},
     {"_fastbioclim_rcpp_parallel_difference", (DL_FUNC) &_fastbioclim_rcpp_parallel_difference, 2},
     {"_fastbioclim_rcpp_parallel_variance", (DL_FUNC) &_fastbioclim_rcpp_parallel_variance, 1},
     {"_fastbioclim_rcpp_parallel_sd", (DL_FUNC) &_fastbioclim_rcpp_parallel_sd, 1},

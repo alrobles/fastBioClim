@@ -13,21 +13,23 @@ temperature (January–December).}
 \item{filename}{Optional file path to write the output raster.}
 }
 \value{
-A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing \strong{BIO4} (Temperature
-Seasonality).
+A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing \strong{BIO4}
+(Temperature Seasonality).
 }
 \description{
 Computes BIO4, \strong{Temperature Seasonality}, from monthly mean temperature
-rasters following the CHELSA Bioclimatic Variables framework. BIO4 is defined as
-the \strong{standard deviation of monthly mean temperature multiplied by 100}:
-\deqn{\mathrm{BIO4} = 100 \times \mathrm{sd}(\mathrm{tas}_{\mathrm{Jan..Dec}}).}
+rasters following the CHELSA Bioclimatic Variables framework. BIO4 is defined
+asvthe \strong{standard deviation of monthly mean temperature multiplied by 100}:
+\deqn{\mathrm{BIO4} = 100 \times
+\mathrm{sd}(\mathrm{tas}_{\mathrm{Jan..Dec}}).}
 }
 \details{
 This function implements the calculation of BIO4 as described in:
 \itemize{
 \item Karger et al. (2022) "CHELSA V2.1: High-resolution monthly and annual
-climatologies for the earth land surface areas". \emph{Earth System Science Data},
-14, 5573–5610. \url{https://essd.copernicus.org/articles/14/5573/2022/}
+climatologies for the earth land surface areas".
+\emph{Earth System Science Data}, 14, 5573–5610.
+\url{https://essd.copernicus.org/articles/14/5573/2022/}
 \item CHELSA Bioclim dataset:
 \url{https://www.chelsa-climate.org/datasets/chelsa_bioclim}
 }
@@ -35,7 +37,8 @@ climatologies for the earth land surface areas". \emph{Earth System Science Data
 The concept of bioclimatic variables originates from:
 \itemize{
 \item Nix, H.A. (1986) and further formalized by:
-\item Hijmans, R.J., Cameron, S.E., Parra, J.L., Jones, P.G., & Jarvis, A. (2005).
+\item Hijmans, R.J.,
+Cameron, S.E., Parra, J.L., Jones, P.G., & Jarvis, A. (2005).
 "Very high resolution interpolated climate surfaces for global land areas".
 \emph{International Journal of Climatology}, 25(15), 1965–1978.
 DOI: \url{https://doi.org/10.1002/joc.1276}
@@ -43,10 +46,10 @@ DOI: \url{https://doi.org/10.1002/joc.1276}
 }
 \section{Units and scaling}{
 
-Input \code{tas} is expected in \strong{degrees Celsius} monthly means (Jan–Dec). The output
-BIO4 is \strong{unitless} by convention because it is \code{sd(tas) * 100}. If your source
-rasters are stored in scaled integers (e.g., 10× or 100× °C), ensure they are
-rescaled to °C before calling this function.
+Input \code{tas} is expected in \strong{degrees Celsius} monthly means (Jan–Dec).
+The output BIO4 is \strong{unitless} by convention because it is \code{sd(tas) * 100}.
+If your source rasters are stored in scaled integers (e.g., 10× or 100× °C),
+ensure they are rescaled to °C before calling this function.
 }
 
 \examples{

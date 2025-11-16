@@ -5,6 +5,14 @@ rcpp_parallel_average <- function(mat_1) {
     .Call(`_fastbioclim_rcpp_parallel_average`, mat_1)
 }
 
+rcpp_parallel_which_max_row <- function(mat_1) {
+    .Call(`_fastbioclim_rcpp_parallel_which_max_row`, mat_1)
+}
+
+rcpp_parallel_which_min_row <- function(mat_1) {
+    .Call(`_fastbioclim_rcpp_parallel_which_min_row`, mat_1)
+}
+
 rcpp_parallel_difference <- function(mat_1, mat_2) {
     .Call(`_fastbioclim_rcpp_parallel_difference`, mat_1, mat_2)
 }
