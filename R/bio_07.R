@@ -88,9 +88,12 @@ bio_07 <- function(tasmax, tasmin, filename = "") {
                                   row = b$row[i], nrows = b$nrows[i],
                                   col = 1, ncols = ncols, mat = TRUE
     )
-    r_min_tasmin <- parallel_row_max(v_tasmin)
+    r_min_tasmin <- parallel_row_min(v_tasmin)
     
-    r_maxmin_diff <- parallel_difference(r_max_tasmax, r_min_tasmin)
+    r_maxmin_diff <- parallel_difference(
+      as.matrix(r_max_tasmax), 
+      as.matrix(r_min_tasmin)
+      )
     
     terra::writeValues(out, r_maxmin_diff, b$row[i], b$nrows[i])
   }

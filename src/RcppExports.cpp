@@ -11,13 +11,24 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // rcpp_parallel_average
-NumericMatrix rcpp_parallel_average(NumericMatrix mat_1);
-RcppExport SEXP _fastbioclim_rcpp_parallel_average(SEXP mat_1SEXP) {
+List rcpp_parallel_average(NumericMatrix mat_1, bool na_rm);
+RcppExport SEXP _fastbioclim_rcpp_parallel_average(SEXP mat_1SEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type mat_1(mat_1SEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_average(mat_1));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_average(mat_1, na_rm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_openmp_info
+SEXP get_openmp_info();
+RcppExport SEXP _fastbioclim_get_openmp_info() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(get_openmp_info());
     return rcpp_result_gen;
 END_RCPP
 }
@@ -79,7 +90,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_fastbioclim_rcpp_parallel_average", (DL_FUNC) &_fastbioclim_rcpp_parallel_average, 1},
+    {"_fastbioclim_rcpp_parallel_average", (DL_FUNC) &_fastbioclim_rcpp_parallel_average, 2},
+    {"_fastbioclim_get_openmp_info", (DL_FUNC) &_fastbioclim_get_openmp_info, 0},
     {"_fastbioclim_rcpp_parallel_which_max_row", (DL_FUNC) &_fastbioclim_rcpp_parallel_which_max_row, 1},
     {"_fastbioclim_rcpp_parallel_which_min_row", (DL_FUNC) &_fastbioclim_rcpp_parallel_which_min_row, 1},
     {"_fastbioclim_rcpp_parallel_difference", (DL_FUNC) &_fastbioclim_rcpp_parallel_difference, 2},

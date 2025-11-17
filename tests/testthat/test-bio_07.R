@@ -35,19 +35,24 @@ test_that("bio_07 fails with wrong number of layers in tasmin", {
   expect_error(bio_07(tasmax, tasmin_wrong), "tasmin must have 12 layers")
 })
 
+
 test_that("bio_07 fails when tasmax and tasmin have different spatial dimensions", {
   tasmax <- mock_tas()
   tasmin <- mock_tas()
   
-  # Make tasmin have different dimensions: crop one row off
-  tasmin_small <- terra::crop(tasmin, terra::ext(tasmin, 1, ncol(tasmin), 2, nrow(tasmin)))
-  # Or alternatively, aggregate/extend; the key is dim mismatch
-  
+  # Make tasmin have different spatial dimensions (drop one row)
+  tasmin_small <- tasmin[
+    1:(terra::nrow(tasmin) - 1),
+    1:terra::ncol(tasmin),
+    ,
+    drop = FALSE
+  ]
   expect_error(
     bio_07(tasmax, tasmin_small),
     "tasmax and tasmin must have same spatial dimensions"
   )
 })
+
 
 test_that("bio_07 fails with wrong class inputs", {
   tasmax <- mock_tas()
