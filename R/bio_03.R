@@ -27,7 +27,8 @@
 #'   maximum temperature.
 #' @param tasmin A [terra::SpatRaster] with **12 layers** representing monthly
 #'   minimum temperature.
-#' @param filename Optional file path to write the output raster ("" for in-memory).
+#' @param filename Optional file path to write the output raster
+#' ("" for in-memory).
 #'
 #' @return A [terra::SpatRaster] with one layer representing **BIO3**
 #' (Isothermality, in percent).
@@ -43,50 +44,52 @@ bio_03 <- function(tasmax, tasmin, filename = "") {
   checkmate::assert_class(tasmax, "SpatRaster")
   checkmate::assert_class(tasmin, "SpatRaster")
   checkmate::assert_true(terra::nlyr(tasmax) == 12,
-                         .var.name = "tasmax must have 12 layers (monthly data)"
+    .var.name = "tasmax must have 12 layers (monthly data)"
   )
   checkmate::assert_true(terra::nlyr(tasmin) == 12,
-                         .var.name = "tasmin must have 12 layers (monthly data)"
+    .var.name = "tasmin must have 12 layers (monthly data)"
   )
   # Full geometry check (CRS, extent, resolution, nrow/ncol)
   terra::compareGeom(tasmax, tasmin, stopOnError = TRUE)
-  
+
   checkmate::assert_string(filename, null.ok = TRUE)
-  
+
   # Create output raster (single layer), inherit geometry from tasmax
   out <- terra::rast(tasmax, nlyr = 1)
-  
+
   # --- Start I/O for block processing; avoid double-opening the same source ---
   # Consider both identical object and identical underlying sources
   same_input <- identical(tasmax, tasmin)
   src_max <- tryCatch(terra::sources(tasmax), error = function(e) character())
   src_min <- tryCatch(terra::sources(tasmin), error = function(e) character())
-  same_source <- same_input || (length(src_max) > 0 &&
-                                  length(src_max) ==
-                                  length(src_min) &&
-                                  all(src_max == src_min))
-  
+  same_lenght <- length(src_max) == length(src_min)
+  same_source <- same_input ||
+    (length(src_max) > 0 && same_lenght && all(src_max == src_min))
+
   terra::readStart(tasmax)
   on.exit(terra::readStop(tasmax), add = TRUE)
-  
+
   # Check if the second source is the same
-  
+
   if (!same_source) {
     terra::readStart(tasmin)
     on.exit(terra::readStop(tasmin), add = TRUE)
   }
-  
+
   # --- Open output for writing; ensure writeStop runs on exit exactly once ---
   ncols <- terra::ncol(tasmax)
   b <- terra::writeStart(out, filename, overwrite = TRUE)
-  on.exit({
-    # writeStop is safe to attempt at exit; silence any double-close issues
-    try(terra::writeStop(out), silent = TRUE)
-  }, add = TRUE)
-  
+  on.exit(
+    {
+      # writeStop is safe to attempt at exit; silence any double-close issues
+      try(terra::writeStop(out), silent = TRUE)
+    },
+    add = TRUE
+  )
+
   # --- Numeric guard constants ---
-  tol <- 1e-9  # denominator tolerance
-  
+  tol <- 1e-9 # denominator tolerance
+
   # --- Compute per block ---
   for (i in seq_len(b$n)) {
     # Read a block for all 12 months (mat=TRUE => matrix with 12 columns)
@@ -100,34 +103,36 @@ bio_03 <- function(tasmax, tasmin, filename = "") {
       row = b$row[i], nrows = b$nrows[i],
       col = 1, ncols = ncols, mat = TRUE
     )
-    
+
     # BIO2 (mean diurnal range):
-    # mean(tmax) - mean(tmin) equals mean(tmax - tmin) under a consistent NA policy.
-    r_tasmax <- parallel_average(v_tasmax)   # row-wise mean over 12 months
+    # average tmax minus average tmin equals average (tmax minus tmin) under a
+    # consistent NA policy.
+    r_tasmax <- parallel_average(v_tasmax) # row-wise mean over 12 months
     r_tasmin <- parallel_average(v_tasmin)
-    r_diff   <- parallel_difference(r_tasmax, r_tasmin) # BIO2 proxy
-    
+    # BIO2 proxy
+    r_diff <- parallel_difference(r_tasmax, r_tasmin)
+
     # BIO7 (annual range): max(tmax) - min(tmin)
     r_max_tasmax <- parallel_row_max(v_tasmax) # row-wise max over months
     r_min_tasmin <- parallel_row_min(v_tasmin) # row-wise min over months
     r_maxmin_diff <- parallel_difference(
-      as.matrix(r_max_tasmax),    # keep 1-col matrix to satisfy C++ function
+      as.matrix(r_max_tasmax), # keep 1-col matrix to satisfy C++ function
       as.matrix(r_min_tasmin)
     )
-    
+
     # BIO3 (%): 100 * BIO2 / BIO7 with division-by-zero guard
     den <- r_maxmin_diff
     num <- r_diff
     den[abs(den) <= tol] <- NA_real_
     r <- 100 * num / den
     r[!is.finite(r)] <- NA_real_
-    
+
     terra::writeValues(out, r, b$row[i], b$nrows[i])
   }
-  
+
   # Explicit close (also guarded by on.exit if an error happened earlier)
   terra::writeStop(out)
-  
-  names(out) <- "bio_03"  # Isothermality (%)
+
+  names(out) <- "bio_03" # Isothermality (%)
   out
 }

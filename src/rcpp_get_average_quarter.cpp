@@ -9,7 +9,7 @@ inline double nansum (const double a, const double b)
 }
 
 // [[Rcpp::export]]
-NumericMatrix rcpp_average_get_quarter(NumericMatrix ixQuarter, NumericMatrix mat) {
+NumericMatrix rcpp_get_average_quarter(NumericMatrix ixQuarter, NumericMatrix mat) {
   
   // allocate the matrix we will return
   NumericMatrix rmat(mat.nrow(), 1);

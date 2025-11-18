@@ -69,15 +69,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_average_get_quarter
-NumericMatrix rcpp_average_get_quarter(NumericMatrix ixQuarter, NumericMatrix mat);
-RcppExport SEXP _fastbioclim_rcpp_average_get_quarter(SEXP ixQuarterSEXP, SEXP matSEXP) {
+// rcpp_get_average_quarter
+NumericMatrix rcpp_get_average_quarter(NumericMatrix ixQuarter, NumericMatrix mat);
+RcppExport SEXP _fastbioclim_rcpp_get_average_quarter(SEXP ixQuarterSEXP, SEXP matSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type ixQuarter(ixQuarterSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type mat(matSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_average_get_quarter(ixQuarter, mat));
+    rcpp_result_gen = Rcpp::wrap(rcpp_get_average_quarter(ixQuarter, mat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_parallel_average_quarter
+NumericMatrix rcpp_parallel_average_quarter(const NumericMatrix& ixQuarter, const NumericMatrix& mat, bool wrap);
+RcppExport SEXP _fastbioclim_rcpp_parallel_average_quarter(SEXP ixQuarterSEXP, SEXP matSEXP, SEXP wrapSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type ixQuarter(ixQuarterSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< bool >::type wrap(wrapSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_average_quarter(ixQuarter, mat, wrap));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -122,7 +135,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastbioclim_rcpp_parallel_which_min_rolling_quarter", (DL_FUNC) &_fastbioclim_rcpp_parallel_which_min_rolling_quarter, 3},
     {"_fastbioclim_rcpp_parallel_which_max_row", (DL_FUNC) &_fastbioclim_rcpp_parallel_which_max_row, 1},
     {"_fastbioclim_rcpp_parallel_which_min_row", (DL_FUNC) &_fastbioclim_rcpp_parallel_which_min_row, 1},
-    {"_fastbioclim_rcpp_average_get_quarter", (DL_FUNC) &_fastbioclim_rcpp_average_get_quarter, 2},
+    {"_fastbioclim_rcpp_get_average_quarter", (DL_FUNC) &_fastbioclim_rcpp_get_average_quarter, 2},
+    {"_fastbioclim_rcpp_parallel_average_quarter", (DL_FUNC) &_fastbioclim_rcpp_parallel_average_quarter, 3},
     {"_fastbioclim_rcpp_parallel_difference", (DL_FUNC) &_fastbioclim_rcpp_parallel_difference, 2},
     {"_fastbioclim_rcpp_parallel_variance", (DL_FUNC) &_fastbioclim_rcpp_parallel_variance, 1},
     {"_fastbioclim_rcpp_parallel_sd", (DL_FUNC) &_fastbioclim_rcpp_parallel_sd, 1},

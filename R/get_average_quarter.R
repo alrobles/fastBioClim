@@ -6,7 +6,8 @@
 #' divides by the count of non-\code{NA} values among the 3 elements.
 #'
 #' @details
-#' - The input \code{idx} is a **1-based** starting index per row (typical in R).
+#' - The input \code{idx} is a **1-based** starting index per row
+#' (the indexing default in R).
 #' - If \code{wrap = FALSE} (default), valid indices are in
 #'   \code{1..(ncol(mat) - 2)} and windows are \code{[j, j+1, j+2]} entirely
 #'   within the matrix.
@@ -31,40 +32,46 @@
 #'
 #' @examples
 #' # Example: each row is 1:12, 13:24, 25:36
-#' m1 <- matrix(1:(12*3), nrow = 3, byrow = TRUE,
-#'              dimnames = list(paste0("cell", 1:3), paste0("m", 1:12)))
-#' # Start at month 10 for all rows (window: 10,11,12) -> average of (10,11,12), (22,23,24), (34,35,36)
+#' m1 <- matrix(1:(12 * 3),
+#'   nrow = 3, byrow = TRUE,
+#'   dimnames = list(paste0("cell", 1:3), paste0("m", 1:12))
+#' )
+#' # Start at month 10 for all rows (window: 10,11,12) -> average of (10,11,12),
+#' # (22,23,24), (34,35,36)
 #' idx <- rep(10L, nrow(m1))
-#' avg <- parallel_average_quarter_from_index(idx, m1, wrap = FALSE)
+#' avg <- get_average_quarter(idx, m1, wrap = FALSE)
 #' avg
 #'
 #' # With wrap-around: start at 12 (window: 12, 1, 2)
 #' idx2 <- c(12L, 12L, 12L)
-#' avg_wrap <- parallel_average_quarter_from_index(idx2, m1, wrap = TRUE)
+#' avg_wrap <- get_average_quarter(idx2, m1, wrap = TRUE)
 #' avg_wrap
 #'
 #' @export
-parallel_average_quarter_from_index <- function(idx, mat, wrap = FALSE) {
+get_average_quarter <- function(idx, mat, wrap = FALSE) {
   # --- Assertions ---
-  checkmate::assert_matrix(mat, mode = "numeric", min.rows = 1, min.cols = 3, any.missing = TRUE)
+  checkmate::assert_matrix(mat,
+    mode = "numeric", min.rows = 1, min.cols = 3,
+    any.missing = TRUE
+  )
   checkmate::assert_flag(wrap)
   checkmate::assert_numeric(idx, any.missing = TRUE, len = nrow(mat))
-  
+
   # Coerce idx to integer (1-based)
   idx <- as.integer(idx)
-  
+
   # Build the matrix we pass to C++.
   # If wrap = TRUE: allow j in 1..ncol(mat) by extending columns 1:2 at the end.
   # If wrap = FALSE: enforce j in 1..(ncol(mat)-2).
   if (wrap) {
     if (ncol(mat) < 3) stop("mat must have at least 3 columns")
     mat_use <- cbind(mat, mat[, 1:2, drop = FALSE])
-    max_start <- ncol(mat)  # valid starts: 1..ncol(mat)
+    max_start <- ncol(mat) # valid starts: 1..ncol(mat)
   } else {
     mat_use <- mat
-    max_start <- ncol(mat) - 2L  # valid starts: 1..(ncol(mat)-2)
+    max_start <- ncol(mat) - 2L # valid starts: 1..(ncol(mat)-2)
   }
-  
+
   # Bounds check (ignore NA starts)
   if (max_start < 1L) {
     stop("Not enough columns in 'mat' for a 3-column window (need at least 3).")
@@ -76,19 +83,19 @@ parallel_average_quarter_from_index <- function(idx, mat, wrap = FALSE) {
       sum(bad), 1L, max_start, as.character(wrap)
     ))
   }
-  
+
   # Prepare 0-based index matrix for C++ (keep NA as NA)
-  ix0 <- idx
-  ix0[!is.na(ix0)] <- ix0[!is.na(ix0)] - 1L
-  ixQuarter <- matrix(ix0, ncol = 1)
-  
+  idx0 <- idx
+  idx0[!is.na(idx0)] <- idx0[!is.na(idx0)] - 1L
+  ix_quarter <- matrix(idx0, ncol = 1)
+
   # Call C++: returns nrow x 1 numeric matrix of averages
-  res_mat <- rcpp_average_get_quarter(ixQuarter, mat_use)
-  
+  res_mat <- rcpp_get_average_quarter(ix_quarter, mat_use)
+
   # Convert to vector and sanitize non-finite to NA
   out <- as.numeric(res_mat[, 1])
   out[!is.finite(out)] <- NA_real_
-  
+
   # Preserve row names
   names(out) <- rownames(mat)
   out

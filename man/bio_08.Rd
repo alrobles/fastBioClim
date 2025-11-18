@@ -17,7 +17,8 @@ mean temperature.}
 (e.g., Dec–Jan–Feb). If \code{FALSE} (default), only non‑wrapping windows
 \code{[1..3], [2..4], ..., [10..12]} are considered.}
 
-\item{filename}{Optional file path to write the output raster ("" for in‑memory).}
+\item{filename}{Optional file path to write the output raster
+("" for in‑memory).}
 }
 \value{
 A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing \strong{BIO8}
@@ -40,9 +41,9 @@ mean temperatures} from \code{tas} for the same months.
 }
 
 The rolling quarter index is obtained with
-\code{parallel_which_max_rolling_quarter(pr_matrix, wrap = ...)}, and the
+\code{parallel_which_max_quarter(pr_matrix, wrap = ...)}, and the
 quarter mean temperature is computed with
-\code{parallel_average_quarter_from_index(idx, tas_matrix)} which averages
+\code{get_average_quarter(idx, tas_matrix)} which averages
 over the three months (skipping \code{NA}s among those three values; all
 \code{NA} in the window yields \code{NA}).
 }
@@ -58,8 +59,8 @@ and the same number of rows/columns.
 
 \examples{
 # Example (with mock data generators)
-pr_ex  <- mock_pr()   # 12-layer monthly precipitation (mm)
-tas_ex <- mock_tas()  # 12-layer monthly mean temperature (°C)
+pr_ex <- mock_pr() # 12-layer monthly precipitation (mm)
+tas_ex <- mock_tas() # 12-layer monthly mean temperature (°C)
 
 # Compute BIO8 without wrap-around (only Jan–Dec contiguous quarters)
 bio8 <- bio_08(pr_ex, tas_ex, wrap = FALSE)
@@ -81,5 +82,6 @@ See also CHELSA Bioclim dataset overview:
 \url{https://www.chelsa-climate.org/datasets/chelsa_bioclim}
 }
 \seealso{
-\code{\link[=parallel_which_max_rolling_quarter]{parallel_which_max_rolling_quarter()}}, \code{\link[=parallel_average_quarter_from_index]{parallel_average_quarter_from_index()}},
+\code{\link[=parallel_which_max_quarter]{parallel_which_max_quarter()}},
+\code{\link[=get_average_quarter]{get_average_quarter()}},
 }

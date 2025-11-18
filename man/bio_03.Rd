@@ -13,7 +13,8 @@ maximum temperature.}
 \item{tasmin}{A \link[terra:SpatRaster-class]{terra::SpatRaster} with \strong{12 layers} representing monthly
 minimum temperature.}
 
-\item{filename}{Optional file path to write the output raster ("" for in-memory).}
+\item{filename}{Optional file path to write the output raster
+("" for in-memory).}
 }
 \value{
 A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing \strong{BIO3}
