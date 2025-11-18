@@ -24,10 +24,6 @@
 #'   m1[i, j0:(j0+2)]
 #' }, numeric(3)))
 #' res
-#' #      [,1] [,2] [,3]
-#' # [1,]   10   11   12
-#' # [2,]   22   23   24
-#' # [3,]   34   35   36
 #'
 #' @export
 parallel_which_max_rolling_quarter <- function(mat, wrap = FALSE, na_rm = FALSE) {
