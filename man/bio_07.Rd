@@ -40,7 +40,8 @@ climatologies for the earth land surface areas".
 The concept of bioclimatic variables originates from:
 \itemize{
 \item Nix, H.A. (1986); further formalized by:
-\item Hijmans, R.J., Cameron, S.E., Parra, J.L., Jones, P.G., & Jarvis, A. (2005).
+\item Hijmans, R.J., Cameron, S.E., Parra, J.L., Jones, P.G., & Jarvis, A.
+(2005).
 "Very high resolution interpolated climate surfaces for global land areas".
 \emph{International Journal of Climatology}, 25(15), 1965–1978.
 DOI: \url{https://doi.org/10.1002/joc.1276}
