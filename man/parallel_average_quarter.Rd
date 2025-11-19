@@ -12,11 +12,12 @@ containing \strong{1-based} starting indices per row.}
 
 \item{mat}{Numeric matrix of values (rows = cells, columns = months).}
 
-\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows (e.g., Dec–Jan–Feb).}
+\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows
+(e.g., Dec–Jan–Feb).}
 
 \item{na_rm}{Logical; if \code{TRUE}, ignore \code{NA}s in the 3-month average
-(return \code{NA} only if all three are \code{NA}). If \code{FALSE}, any \code{NA} in the window
-propagates to \code{NA}.}
+(return \code{NA} only if all three are \code{NA}). If \code{FALSE}, any \code{NA} in the
+window propagates to \code{NA}.}
 }
 \value{
 A numeric vector of length \code{nrow(mat)} with the per-row averages.

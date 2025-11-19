@@ -10,8 +10,10 @@ parallel_which_max_quarter(mat, wrap = FALSE, na_rm = FALSE)
 \item{mat}{Numeric matrix (rows = cells, columns = months). Must have
 at least 3 columns.}
 
-\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows (e.g., Dec–Jan–Feb).
-If \code{FALSE}, only windows \verb{[1..3], [2..4], ..., [10..12]} are considered.}
+\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows
+(e.g., Dec–Jan–Feb). If \code{FALSE}, only windows
+\verb{[1..3], [2..4], ..., [10..12]} are considered. This is particularly needed
+when calculate bioclimatic variables by an specific year}
 
 \item{na_rm}{Logical; see details above.}
 }
@@ -24,9 +26,10 @@ Returns, for each row, the \strong{starting column index} (1-based) of the
 3-consecutive-month window whose \strong{score is maximum}.
 The score is a 3-month \strong{mean}:
 \itemize{
-\item If \code{na_rm = FALSE} (default), any \code{NA} in a window \strong{invalidates} that window.
-\item If \code{na_rm = TRUE}, the score is computed as the \strong{mean over non-NA values};
-windows with \strong{all NA} are invalid. If \strong{no valid windows} exist for a row,
-the result is \code{NA}.
+\item If \code{na_rm = FALSE} (default), any \code{NA} in a window \strong{invalidates} that
+window.
+\item If \code{na_rm = TRUE}, the score is computed as the
+\strong{mean over non-NA values} windows with \strong{all NA} are invalid.
+If \strong{no valid windows} exist for a row, the result is \code{NA}.
 }
 }

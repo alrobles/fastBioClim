@@ -37,10 +37,10 @@ the CHELSA/WorldClim Bioclimatic Variables framework.
 \strong{BIO9} is the \strong{average monthly mean temperature over the driest
 3‑month period} of the year, computed per cell. This implementation:
 \enumerate{
-\item Identifies, for each cell, the starting month of the \strong{driest quarter}
-by taking rolling 3‑month precipitation sums (optionally allowing
-wrap‑around windows, e.g., Dec–Jan–Feb when \code{wrap = TRUE}) and
-selecting the minimum-sum window via
+\item Identifies, for each cell, the starting month of the
+\strong{driest quarter} by taking rolling 3‑month precipitation sums
+(optionally allowing wrap‑around windows, e.g., Dec–Jan–Feb when
+\code{wrap = TRUE}) and selecting the minimum-sum window via
 \code{parallel_which_min_quarter()}.
 \item Uses that quarter index to compute the \strong{mean of the three monthly
 mean temperatures} from \code{tas} for the same months via
@@ -71,8 +71,8 @@ and the same number of rows/columns.
 
 \examples{
 # Mock data (12-layer monthly rasters)
-pr_ex  <- mock_pr()   # precipitation (mm)
-tas_ex <- mock_tas()  # mean temperature (°C)
+pr_ex <- mock_pr() # precipitation (mm)
+tas_ex <- mock_tas() # mean temperature (°C)
 
 # Compute BIO9 without wrap-around (only Jan–Dec contiguous quarters)
 bio9 <- bio_09(pr_ex, tas_ex, wrap = FALSE)
@@ -83,16 +83,16 @@ bio9_wrap <- bio_09(pr_ex, tas_ex, wrap = TRUE)
 bio9_wrap
 
 # Handle NA values by ignoring them
-pr_na  <- make_1x1_12(c(10, 10, 10, 1,1,1,1,1,1,1,1,1))
-tas_na <- make_1x1_12(c(NA, NA, 3, 4,5,6,7,8,9,10,11,12))
+pr_na <- make_1x1_12(c(10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1))
+tas_na <- make_1x1_12(c(NA, NA, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
 bio9_na <- bio_09(pr_na, tas_na, wrap = FALSE, na_rm = TRUE)
 bio9_na
 
 }
 \references{
 Karger, D.N., et al. (2022). CHELSA V2.1: High‑resolution monthly and annual
-climatologies for the Earth land surface areas. \emph{Earth System Science Data},
-14, 5573–5610. \cr
+climatologies for the Earth land surface areas.
+\emph{Earth System Science Data}, 14, 5573–5610. \cr
 Hijmans, R.J., et al. (2005). Very high resolution interpolated climate
 surfaces for global land areas. \emph{International Journal of Climatology},
 25(15), 1965–1978. \cr

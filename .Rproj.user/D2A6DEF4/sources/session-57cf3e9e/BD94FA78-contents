@@ -1,4 +1,0 @@
-# Compile attributes and build
-Rcpp::compileAttributes()
-devtools::document()
-devtools::install()

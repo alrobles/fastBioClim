@@ -1,5 +1,32 @@
 [
     {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-get-average-quarter.cpp",
+        "file_last_write": 1763499063.0,
+        "definitions": [
+            {
+                "usr": "c:@F@nansum#1d#1d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "nansum(const double, const double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-get-average-quarter.cpp",
+                "line": 6,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_get_average_quarter#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_get_average_quarter(NumericMatrix, NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-get-average-quarter.cpp",
+                "line": 12,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
         "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-average.cpp",
         "file_last_write": 1763414513.0,
         "definitions": [
@@ -30,6 +57,53 @@
                 "name": "rcpp_parallel_average(NumericMatrix)",
                 "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-average.cpp",
                 "line": 29,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-difference.cpp",
+        "file_last_write": 1763277966.0,
+        "definitions": [
+            {
+                "usr": "c:@F@difference#d#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "difference(double, double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-difference.cpp",
+                "line": 8,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@matDiffParallel",
+                "kind": 3,
+                "parent_name": "",
+                "name": "matDiffParallel",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-difference.cpp",
+                "line": 12,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@matDiffParallel@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "matDiffParallel",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-difference.cpp",
+                "line": 20,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_difference#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_difference(NumericMatrix, NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-difference.cpp",
+                "line": 32,
                 "column": 15,
                 "hidden": false
             }
@@ -191,33 +265,6 @@
         "hidden": false
     },
     {
-        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_get_average_quarter.cpp",
-        "file_last_write": 1763499063.0,
-        "definitions": [
-            {
-                "usr": "c:@F@nansum#1d#1d#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "nansum(const double, const double)",
-                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_get_average_quarter.cpp",
-                "line": 6,
-                "column": 15,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@rcpp_get_average_quarter#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "rcpp_get_average_quarter(NumericMatrix, NumericMatrix)",
-                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_get_average_quarter.cpp",
-                "line": 12,
-                "column": 15,
-                "hidden": false
-            }
-        ],
-        "hidden": false
-    },
-    {
         "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_average_quarter.cpp",
         "file_last_write": 1763508187.0,
         "definitions": [
@@ -258,53 +305,6 @@
                 "name": "rcpp_parallel_average_quarter(const NumericMatrix &, const NumericMatrix &, bool, bool)",
                 "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_average_quarter.cpp",
                 "line": 78,
-                "column": 15,
-                "hidden": false
-            }
-        ],
-        "hidden": false
-    },
-    {
-        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
-        "file_last_write": 1763277966.0,
-        "definitions": [
-            {
-                "usr": "c:@F@difference#d#d#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "difference(double, double)",
-                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
-                "line": 8,
-                "column": 15,
-                "hidden": false
-            },
-            {
-                "usr": "c:@S@matDiffParallel",
-                "kind": 3,
-                "parent_name": "",
-                "name": "matDiffParallel",
-                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
-                "line": 12,
-                "column": 8,
-                "hidden": false
-            },
-            {
-                "usr": "c:@S@matDiffParallel@F@operator()#l#l#",
-                "kind": 7,
-                "parent_name": "matDiffParallel",
-                "name": "operator(std::size_t, std::size_t)",
-                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
-                "line": 20,
-                "column": 8,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@rcpp_parallel_difference#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "rcpp_parallel_difference(NumericMatrix, NumericMatrix)",
-                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
-                "line": 32,
                 "column": 15,
                 "hidden": false
             }
@@ -382,6 +382,53 @@
                 "name": "rcpp_parallel_sd(NumericMatrix)",
                 "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_sd.cpp",
                 "line": 113,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_sum.cpp",
+        "file_last_write": 1763580896.0,
+        "definitions": [
+            {
+                "usr": "c:@F@is_na_double#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "is_na_double(double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_sum.cpp",
+                "line": 12,
+                "column": 13,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@SumWorker",
+                "kind": 3,
+                "parent_name": "",
+                "name": "SumWorker",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_sum.cpp",
+                "line": 16,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@SumWorker@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "SumWorker",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_sum.cpp",
+                "line": 24,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_sum#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#b#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_sum(NumericMatrix, bool)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_sum.cpp",
+                "line": 56,
                 "column": 15,
                 "hidden": false
             }

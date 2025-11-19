@@ -8,10 +8,10 @@
 #' **BIO9** is the **average monthly mean temperature over the driest
 #' 3‑month period** of the year, computed per cell. This implementation:
 #' \enumerate{
-#'   \item Identifies, for each cell, the starting month of the **driest quarter**
-#'         by taking rolling 3‑month precipitation sums (optionally allowing
-#'         wrap‑around windows, e.g., Dec–Jan–Feb when \code{wrap = TRUE}) and
-#'         selecting the minimum-sum window via
+#'   \item Identifies, for each cell, the starting month of the
+#'          **driest quarter** by taking rolling 3‑month precipitation sums
+#'         (optionally allowing wrap‑around windows, e.g., Dec–Jan–Feb when
+#'          \code{wrap = TRUE}) and selecting the minimum-sum window via
 #'         \code{parallel_which_min_quarter()}.
 #'   \item Uses that quarter index to compute the **mean of the three monthly
 #'         mean temperatures** from \code{tas} for the same months via
@@ -50,8 +50,8 @@
 #'
 #' @references
 #' Karger, D.N., et al. (2022). CHELSA V2.1: High‑resolution monthly and annual
-#' climatologies for the Earth land surface areas. \emph{Earth System Science Data},
-#' 14, 5573–5610. \cr
+#' climatologies for the Earth land surface areas.
+#' \emph{Earth System Science Data}, 14, 5573–5610. \cr
 #' Hijmans, R.J., et al. (2005). Very high resolution interpolated climate
 #' surfaces for global land areas. \emph{International Journal of Climatology},
 #' 25(15), 1965–1978. \cr
@@ -63,8 +63,8 @@
 #'
 #' @examples
 #' # Mock data (12-layer monthly rasters)
-#' pr_ex  <- mock_pr()   # precipitation (mm)
-#' tas_ex <- mock_tas()  # mean temperature (°C)
+#' pr_ex <- mock_pr() # precipitation (mm)
+#' tas_ex <- mock_tas() # mean temperature (°C)
 #'
 #' # Compute BIO9 without wrap-around (only Jan–Dec contiguous quarters)
 #' bio9 <- bio_09(pr_ex, tas_ex, wrap = FALSE)
@@ -75,8 +75,8 @@
 #' bio9_wrap
 #'
 #' # Handle NA values by ignoring them
-#' pr_na  <- make_1x1_12(c(10, 10, 10, 1,1,1,1,1,1,1,1,1))
-#' tas_na <- make_1x1_12(c(NA, NA, 3, 4,5,6,7,8,9,10,11,12))
+#' pr_na <- make_1x1_12(c(10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1))
+#' tas_na <- make_1x1_12(c(NA, NA, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
 #' bio9_na <- bio_09(pr_na, tas_na, wrap = FALSE, na_rm = TRUE)
 #' bio9_na
 #'
@@ -85,45 +85,50 @@ bio_09 <- function(pr, tas, wrap = FALSE, na_rm = FALSE, filename = "") {
   checkmate::assert_class(pr, "SpatRaster")
   checkmate::assert_class(tas, "SpatRaster")
   checkmate::assert_true(terra::nlyr(pr) == 12,
-                         .var.name = "pr must have 12 layers (monthly data)")
+    .var.name = "pr must have 12 layers (monthly data)"
+  )
   checkmate::assert_true(terra::nlyr(tas) == 12,
-                         .var.name = "tas must have 12 layers (monthly data)")
+    .var.name = "tas must have 12 layers (monthly data)"
+  )
   checkmate::assert_true(all(dim(pr)[1:2] == dim(tas)[1:2]),
-                         .var.name = "pr and tas must have same dimensions")
+    .var.name = "pr and tas must have same dimensions"
+  )
   checkmate::assert_string(filename, null.ok = TRUE)
-  
+
   # Create output raster (single layer)
   out <- terra::rast(pr, nlyr = 1)
-  
+
   terra::readStart(pr)
   terra::readStart(tas)
   on.exit(terra::readStop(pr), add = TRUE)
   on.exit(terra::readStop(tas), add = TRUE)
-  
+
   ncols <- terra::ncol(pr)
-  
+
   b <- terra::writeStart(out, filename, overwrite = TRUE)
   on.exit(try(terra::writeStop(out), silent = TRUE), add = TRUE)
   for (i in 1:b$n) {
     v_pr <- terra::readValues(pr,
-                              row = b$row[i], nrows = b$nrows[i],
-                              col = 1, ncols = ncols, mat = TRUE
+      row = b$row[i], nrows = b$nrows[i],
+      col = 1, ncols = ncols, mat = TRUE
     )
     r_min_pr <- parallel_which_min_quarter(v_pr, wrap = wrap, na_rm = na_rm)
-    
+
     v_tas <- terra::readValues(tas,
-                               row = b$row[i], nrows = b$nrows[i],
-                               col = 1, ncols = ncols, mat = TRUE
+      row = b$row[i], nrows = b$nrows[i],
+      col = 1, ncols = ncols, mat = TRUE
     )
-    
-    r <- parallel_average_quarter(idx = as.matrix(r_min_pr),
-                                  mat =  v_tas,
-                                  wrap = wrap, 
-                                  na_rm = na_rm)
-    
+
+    r <- parallel_average_quarter(
+      idx = as.matrix(r_min_pr),
+      mat = v_tas,
+      wrap = wrap,
+      na_rm = na_rm
+    )
+
     terra::writeValues(out, r, b$row[i], b$nrows[i])
   }
-  
+
   terra::writeStop(out)
   names(out) <- "bio_09"
   out

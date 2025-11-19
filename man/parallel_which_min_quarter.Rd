@@ -10,8 +10,10 @@ parallel_which_min_quarter(mat, wrap = FALSE, na_rm = FALSE)
 \item{mat}{Numeric matrix (rows = cells, columns = months). Must have
 at least 3 columns.}
 
-\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows (e.g., Dec–Jan–Feb).
-If \code{FALSE}, only windows \verb{[1..3], [2..4], ..., [10..12]} are considered.}
+\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows
+(e.g., Dec–Jan–Feb). If \code{FALSE}, only windows
+\verb{[1..3], [2..4], ..., [10..12]} are considered. This is particularly needed
+when calculate bioclimatic variables by an specific year}
 
 \item{na_rm}{Logical; see details above.}
 }
