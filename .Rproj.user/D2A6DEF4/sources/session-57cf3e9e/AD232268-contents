@@ -1,0 +1,35 @@
+bio_10 <- function(tas, wrap = FALSE, filename = "") {
+  checkmate::assert_class(tas, "SpatRaster")
+  checkmate::assert_true(terra::nlyr(tas) == 12,
+                         .var.name = "tas must have 12 layers (monthly data)"
+  )
+  checkmate::assert_string(filename, null.ok = TRUE)
+  
+  # Create output raster (single layer)
+  out <- terra::rast(tas, nlyr = 1)
+  
+  terra::readStart(tas)
+  on.exit(terra::readStop(tas), add = TRUE)
+  
+  ncols <- terra::ncol(tas)
+  
+  b <- terra::writeStart(out, filename, overwrite = TRUE)
+  on.exit(try(terra::writeStop(out), silent = TRUE), add = TRUE)
+  for (i in 1:b$n) {
+    v_tas <- terra::readValues(tas,
+                               row = b$row[i], nrows = b$nrows[i],
+                               col = 1, ncols = ncols, mat = TRUE
+    )
+    r_max_tas <- parallel_which_max_quarter(v_tas, wrap = wrap)
+    
+    r <- parallel_average_quarter(idx = as.matrix(r_max_tas),
+                                  mat =  v_tas,
+                                  wrap = wrap)
+    
+    terra::writeValues(out, r, b$row[i], b$nrows[i])
+  }
+  
+  terra::writeStop(out)
+  names(out) <- "bio_10"
+  out
+}

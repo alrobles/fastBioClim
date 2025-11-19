@@ -1,0 +1,3 @@
+M <- matrix(runif(12*10), ncol = 12)
+
+fastbioclim:::rcpp_parallel_average(M)

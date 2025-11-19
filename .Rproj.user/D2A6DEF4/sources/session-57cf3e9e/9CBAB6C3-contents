@@ -1,0 +1,24 @@
+# tests/testthat/test-mock_tasmin.R
+library(testthat)
+library(terra)
+
+test_that("mock_tasmin returns a SpatRaster with 12 layers", {
+  # Call the function
+  tasmin <- mock_tasmin()
+  
+  # Check class
+  expect_s4_class(tasmin, "SpatRaster")
+  
+  # Check number of layers
+  expect_equal(nlyr(tasmin), 12)
+  
+  # Check layer names follow expected pattern
+  expected_names <- sprintf("tasmin_%02d", 1:12)
+  expect_equal(names(tasmin), expected_names)
+  
+  # Check dimensions
+  expect_equal(dim(tasmin)[1:2], c(20, 20))  # 20 rows, 20 cols
+  
+  # Check CRS is WGS84
+  expect_true(grepl("4326", crs(tasmin)))
+})

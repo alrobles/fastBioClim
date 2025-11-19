@@ -1,0 +1,9 @@
+# Use standard optimization flags
+CXXFLAGS = -O3 -Wall -pedantic
+CXX11FLAGS = -O3 -Wall -pedantic
+CXX14FLAGS = -O3 -Wall -pedantic
+CXX17FLAGS = -O3 -Wall -pedantic
+
+# Link against RcppParallel
+PKG_CPPFLAGS = $(shell "${R_HOME}/bin/Rscript" -e "RcppParallel::CxxFlags()")
+PKG_LIBS = $(shell "${R_HOME}/bin/Rscript" -e "RcppParallel::LdFlags()")

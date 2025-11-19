@@ -1,0 +1,10 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^compileRoutine$
+^NAMESPACE_template$
+^draft
+^scripts
+^R_sandbox$
+^src_sandbox$
+^LICENSE\.md$
+^tests/testthat/test-sd-benchmark\.R$

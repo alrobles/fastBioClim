@@ -1,0 +1,51 @@
+#' bio 10. Mean Temperature of the warmest Quarter
+#'
+#' @param tas 
+#' @param filename the output where to write
+#'
+#' @return
+#' @export A raster file. 
+#'
+#' @exaout <- rast(pr)
+nlyr(out) <- 1
+nc <- ncol(pr)
+readStart(pr)
+on.exit(readStop(pr))
+nl <- nlyr(pr)
+nc <- ncol(pr)
+ncops <- nlyr(pr) / nlyr(out)
+
+b <- writeStart(out, filename, overwrite = TRUE, n=ncops)
+for (i in 1:b$n) {
+  v_1 <- readValues(pr, b$row[i], b$nrows[i], 1, nc, TRUE)
+  r_1 <- fastBioClim::rcpp_parallel_which_max_row(v_1)
+  r <- v_1[ ,r_1] 
+  writeValues(out, r, b$row[i], b$nrows[i])
+}mples
+
+tas <- terra::rast("/home/reumanlab/Downloads/r_tas_test.tif")
+pr <- terra::rast("/home/reumanlab/Downloads/r_tas_test.tif")
+
+fastBioClim::bio_9(pr = pr, tas = tas)
+fastBioClim::bio_19(pr = pr, tasmin = tas)
+library(terra)
+
+out <- rast(pr)
+nlyr(out) <- 1
+nc <- ncol(pr)
+readStart(pr)
+on.exit(readStop(pr))
+nl <- nlyr(pr)
+nc <- ncol(pr)
+ncops <- nlyr(pr) / nlyr(out)
+
+b <- writeStart(out, filename = "", overwrite = TRUE, n=ncops)
+i = 1
+for (i in 1:b$n) {
+  v_1 <- readValues(pr, b$row[i], b$nrows[i], 1, nc, TRUE)
+  r_1 <- fastBioClim::rcpp_parallel_which_max_row(v_1)
+   
+  writeValues(out, r_1, b$row[i], b$nrows[i])
+}
+
+100*terra::stdev(pr)/terra::mean(pr)

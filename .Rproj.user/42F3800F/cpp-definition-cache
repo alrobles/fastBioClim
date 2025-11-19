@@ -1,0 +1,613 @@
+[
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/max-quarter.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@F@plus_two#d#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "plus_two(double, double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/max-quarter.cpp",
+                "line": 7,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@matrixMinInd#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "matrixMinInd(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/max-quarter.cpp",
+                "line": 12,
+                "column": 5,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@matrixMaxInd#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "matrixMaxInd(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/max-quarter.cpp",
+                "line": 20,
+                "column": 5,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@vectorMaxInd#$@N@Rcpp@S@Vector>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "vectorMaxInd(NumericVector)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/max-quarter.cpp",
+                "line": 28,
+                "column": 5,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_which_max_quarter#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_which_max_quarter(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/max-quarter.cpp",
+                "line": 36,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MaxQuarter",
+                "kind": 3,
+                "parent_name": "",
+                "name": "MaxQuarter",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/max-quarter.cpp",
+                "line": 73,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MaxQuarter@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "MaxQuarter",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/max-quarter.cpp",
+                "line": 90,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_which_max_quarter#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_which_max_quarter(NumericMatrix, NumericMatrix, NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/max-quarter.cpp",
+                "line": 126,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-maxmin.cpp",
+        "file_last_write": 1757435437.0,
+        "definitions": [
+            {
+                "usr": "c:@S@MaxMonth",
+                "kind": 3,
+                "parent_name": "",
+                "name": "MaxMonth",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-maxmin.cpp",
+                "line": 8,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MaxMonth@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "MaxMonth",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-maxmin.cpp",
+                "line": 19,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_which_max_row#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_which_max_row(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-maxmin.cpp",
+                "line": 38,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MinMonth",
+                "kind": 3,
+                "parent_name": "",
+                "name": "MinMonth",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-maxmin.cpp",
+                "line": 53,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MinMonth@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "MinMonth",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-maxmin.cpp",
+                "line": 64,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_which_min_row#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_which_min_row(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-maxmin.cpp",
+                "line": 83,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-min-quarter.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@F@plus_two#d#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "plus_two(double, double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-min-quarter.cpp",
+                "line": 11,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MinQuarter",
+                "kind": 3,
+                "parent_name": "",
+                "name": "MinQuarter",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-min-quarter.cpp",
+                "line": 16,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MinQuarter@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "MinQuarter",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-min-quarter.cpp",
+                "line": 33,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_which_min_quarter#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_which_min_quarter(NumericMatrix, NumericMatrix, NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/parallel-min-quarter.cpp",
+                "line": 69,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/prallel-random-matrix.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@S@RandomFill",
+                "kind": 3,
+                "parent_name": "",
+                "name": "RandomFill",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/prallel-random-matrix.cpp",
+                "line": 8,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@RandomFill@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "RandomFill",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/prallel-random-matrix.cpp",
+                "line": 14,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@parallel_random_matrix#1I#1I#1I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "parallel_random_matrix(const int, const int, const int)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/prallel-random-matrix.cpp",
+                "line": 25,
+                "column": 21,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-max-quarter.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@F@nansum#1d#1d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "nansum(const double, const double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-max-quarter.cpp",
+                "line": 6,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_get_max_quarter#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_get_max_quarter(NumericMatrix, NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-max-quarter.cpp",
+                "line": 12,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-average.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@S@MeanParallel",
+                "kind": 3,
+                "parent_name": "",
+                "name": "MeanParallel",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-average.cpp",
+                "line": 8,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@MeanParallel@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "MeanParallel",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-average.cpp",
+                "line": 18,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_average#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_average(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-average.cpp",
+                "line": 29,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-coef-var.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@FT@>1#Tvariance#t0.0#S0_#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "variance(InputIterator, InputIterator)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-coef-var.cpp",
+                "line": 13,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@CoefVarParallel",
+                "kind": 3,
+                "parent_name": "",
+                "name": "CoefVarParallel",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-coef-var.cpp",
+                "line": 42,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@CoefVarParallel@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "CoefVarParallel",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-coef-var.cpp",
+                "line": 52,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_coef_var#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_coef_var(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-coef-var.cpp",
+                "line": 66,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-cumulative-sum.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@S@RowSumParallel",
+                "kind": 3,
+                "parent_name": "",
+                "name": "RowSumParallel",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-cumulative-sum.cpp",
+                "line": 8,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@RowSumParallel@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "RowSumParallel",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-cumulative-sum.cpp",
+                "line": 18,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_cumulative_sum#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_cumulative_sum(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-cumulative-sum.cpp",
+                "line": 29,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-variance.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@FT@>1#Tvariance#t0.0#S0_#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "variance(InputIterator, InputIterator)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-variance.cpp",
+                "line": 14,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@VarParallel",
+                "kind": 3,
+                "parent_name": "",
+                "name": "VarParallel",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-variance.cpp",
+                "line": 43,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@VarParallel@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "VarParallel",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-variance.cpp",
+                "line": 53,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_variance#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_variance(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-variance.cpp",
+                "line": 66,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@SDParallel",
+                "kind": 3,
+                "parent_name": "",
+                "name": "SDParallel",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-variance.cpp",
+                "line": 80,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@SDParallel@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "SDParallel",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-variance.cpp",
+                "line": 90,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_sd#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_sd(NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp-parallel-variance.cpp",
+                "line": 103,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_get_avg_quarter.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@F@nansum#1d#1d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "nansum(const double, const double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_get_avg_quarter.cpp",
+                "line": 6,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_get_avg_quarter#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_get_avg_quarter(NumericMatrix, NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_get_avg_quarter.cpp",
+                "line": 12,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_get_sum_quarter.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@F@nansum#1d#1d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "nansum(const double, const double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_get_sum_quarter.cpp",
+                "line": 6,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_get_sum_quarter#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_get_sum_quarter(NumericMatrix, NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_get_sum_quarter.cpp",
+                "line": 12,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@F@difference#d#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "difference(double, double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
+                "line": 9,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@matDiffParallel",
+                "kind": 3,
+                "parent_name": "",
+                "name": "matDiffParallel",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
+                "line": 13,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@matDiffParallel@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "matDiffParallel",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
+                "line": 24,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_difference#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_difference(NumericMatrix, NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_difference.cpp",
+                "line": 45,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    },
+    {
+        "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_quotientcpp.cpp",
+        "file_last_write": 1748445890.0,
+        "definitions": [
+            {
+                "usr": "c:@F@quotient#d#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "quotient(double, double)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_quotientcpp.cpp",
+                "line": 9,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@matQuotParallel",
+                "kind": 3,
+                "parent_name": "",
+                "name": "matQuotParallel",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_quotientcpp.cpp",
+                "line": 13,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@S@matQuotParallel@F@operator()#l#l#",
+                "kind": 7,
+                "parent_name": "matQuotParallel",
+                "name": "operator(std::size_t, std::size_t)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_quotientcpp.cpp",
+                "line": 24,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@rcpp_parallel_quotient#$@N@Rcpp@S@Matrix>#VI14#@N@Rcpp@ST>1#T@PreserveStorage#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "rcpp_parallel_quotient(NumericMatrix, NumericMatrix)",
+                "file": "/home/reumanlab/Documents/GitHub/fastBioClim/src/rcpp_parallel_quotientcpp.cpp",
+                "line": 45,
+                "column": 15,
+                "hidden": false
+            }
+        ],
+        "hidden": false
+    }
+]

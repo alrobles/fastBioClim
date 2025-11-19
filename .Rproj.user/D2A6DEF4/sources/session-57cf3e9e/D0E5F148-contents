@@ -1,0 +1,42 @@
+#' Rolling quarter (3-month) maximum index per row (parallel)
+#'
+#' Returns, for each row, the **starting column index** (1-based) of the
+#' 3-consecutive-column window whose **sum is maximum**, using the parallel
+#' C++ routine \code{rcpp_parallel_which_max_rolling_quarter()}.
+#'
+#' @param mat Numeric matrix (rows = cells, columns = months). Must have
+#'   at least 3 columns.
+#' @param wrap Logical; if `TRUE`, allow wrap-around windows (e.g., Dec–Jan–Feb).
+#'   Default `FALSE`.
+#' @param na_rm Logical; if `TRUE`, skip windows containing any `NA`; if all
+#'   windows contain `NA`, the result is `NA`. If `FALSE` (default), the presence
+#'   of any `NA` in the row yields `NA` for that row.
+#'
+#' @return An integer vector of length `nrow(mat)` with **1-based** starting
+#'   indices. Row names are preserved from `mat` if present.
+#'
+#' @examples
+#' m1 <- matrix(1:(12*3), nrow = 3, byrow = TRUE)
+#' idx <- parallel_which_max_rolling_quarter(m1, wrap = FALSE)  # should be 10,10,10
+#' # Reconstruct each row's 3-month group (no wrap):
+#' res <- t(vapply(seq_len(nrow(m1)), function(i) {
+#'   j0 <- idx[i]; if (is.na(j0) || j0 + 2 > ncol(m1)) return(c(NA, NA, NA))
+#'   m1[i, j0:(j0+2)]
+#' }, numeric(3)))
+#' res
+#' #      [,1] [,2] [,3]
+#' # [1,]   10   11   12
+#' # [2,]   22   23   24
+#' # [3,]   34   35   36
+#'
+#' @export
+parallel_which_max_rolling_quarter <- function(mat, wrap = FALSE, na_rm = FALSE) {
+  checkmate::assert_matrix(mat, mode = "numeric", any.missing = TRUE, min.rows = 1, min.cols = 3)
+  checkmate::assert_flag(wrap)
+  checkmate::assert_flag(na_rm)
+  
+  idx_mat <- rcpp_parallel_which_max_rolling_quarter(mat, wrap = wrap, na_rm = na_rm)
+  out <- as.integer(idx_mat[, 1])
+  names(out) <- rownames(mat)
+  out
+}

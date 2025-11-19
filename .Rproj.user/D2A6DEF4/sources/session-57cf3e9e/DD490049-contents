@@ -1,0 +1,84 @@
+bio_03 <- function(tasmax, tasmin, filename = "") {
+  # --- Assertions ---
+  checkmate::assert_class(tasmax, "SpatRaster")
+  checkmate::assert_class(tasmin, "SpatRaster")
+  checkmate::assert_true(terra::nlyr(tasmax) == 12,
+    .var.name = "tasmax must have 12 layers (monthly data)"
+  )
+  checkmate::assert_true(terra::nlyr(tasmin) == 12,
+    .var.name = "tasmin must have 12 layers (monthly data)"
+  )
+  # Check full geometry (CRS, extent, resolution, nrow/ncol)
+  # This throws if not identical; clearer than a bare dim check.
+  terra::compareGeom(tasmax, tasmin, stopOnError = TRUE)
+
+  checkmate::assert_string(filename, null.ok = TRUE)
+
+  # Create output raster (single layer), inherit geometry from tasmax
+  out <- terra::rast(tasmax, nlyr = 1)
+
+  # Start I/O for block processing
+  terra::readStart(tasmax)
+  terra::readStart(tasmin)
+  on.exit(terra::readStop(tasmax), add = TRUE)
+  on.exit(terra::readStop(tasmin), add = TRUE)
+
+  # Open output for writing; ensure writeStop runs on exit
+  ncols <- terra::ncol(tasmax)
+  b <- terra::writeStart(out, filename, overwrite = TRUE)
+  on.exit(
+    {
+      # writeStop is idempotent-safe enough in practice
+      # Wrap in try for safety
+      # silently ignores the failure instead of crashing.
+      try(terra::writeStop(out), silent = TRUE)
+    },
+    add = TRUE
+  )
+
+  # Compute per block
+  for (i in seq_len(b$n)) {
+    # --- Read a block for all 12 months (mat=TRUE => matrix with 12 columns if your layers are arranged by month) ---
+    v_tasmax <- terra::readValues(
+      tasmax,
+      row = b$row[i], nrows = b$nrows[i],
+      col = 1, ncols = ncols, mat = TRUE
+    )
+    v_tasmin <- terra::readValues(
+      tasmin,
+      row = b$row[i], nrows = b$nrows[i],
+      col = 1, ncols = ncols, mat = TRUE
+    )
+
+    # --- BIO2 (mean diurnal range) ---
+    # mean(tmax) - mean(tmin) is equal to mean(tmax - tmin) under NA-consistent policy.
+    r_tasmax <- parallel_average(v_tasmax) # block-wise mean over the 12 months per row
+    r_tasmin <- parallel_average(v_tasmin)
+    r_diff <- parallel_difference(r_tasmax, r_tasmin) # BIO2 proxy
+
+    # --- BIO7 (annual range) ---
+    r_max_tasmax <- parallel_row_max(v_tasmax) # max over 12 months per row
+    r_min_tasmin <- parallel_row_min(v_tasmin) # min over 12 months per row
+    r_maxmin_diff <- parallel_difference(
+      as.matrix(r_max_tasmax), # keep as matrix to satisfy C++ side
+      as.matrix(r_min_tasmin)
+    ) # BIO7
+
+    # --- BIO3 (Isothermality): 100 * BIO2 / BIO7 with safe guard ---
+    tol <- 1e-9
+    den <- r_maxmin_diff
+    num <- r_diff
+    # If annual range is ~0, return NA to avoid Inf/NaN
+    den[abs(den) <= tol] <- NA_real_
+    r <- 100 * num / den
+    r[!is.finite(r)] <- NA_real_
+
+    terra::writeValues(out, r, b$row[i], b$nrows[i])
+  }
+
+  # Close the file on success path (also guarded by on.exit in case of error)
+  terra::writeStop(out)
+
+  names(out) <- "bio_03"
+  out
+}

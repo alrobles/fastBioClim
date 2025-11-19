@@ -1,0 +1,28 @@
+#' Compute element-wise difference in parallel
+#'
+#' @param mat_1 A numeric matrix
+#' @param mat_2 A numeric matrix of the same dimensions as mat_1
+#' @return A numeric matrix with element-wise differences (mat_1 - mat_2)
+#' @examples
+#' mat1 <- matrix(1:9, nrow = 3)
+#' mat2 <- matrix(9:1, nrow = 3)
+#' parallel_difference(mat1, mat2)
+#' @export
+parallel_difference <- function(mat_1, mat_2) {
+  # --- Assertions using checkmate ---
+  checkmate::assert_matrix(mat_1,
+                           mode = "numeric",
+                           any.missing = FALSE,
+                           min.rows = 1,
+                           min.cols = 1)
+  checkmate::assert_matrix(mat_2,
+                           mode = "numeric",
+                           any.missing = FALSE,
+                           min.rows = 1,
+                           min.cols = 1)
+  checkmate::assert_true(all(dim(mat_1) == dim(mat_2)),
+                         .var.name = "mat_1 and mat_2 must have the same dimensions")
+  
+  # Call C++ implementation
+  rcpp_parallel_difference(mat_1, mat_2)
+}
