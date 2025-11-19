@@ -25,8 +25,8 @@ rcpp_get_average_quarter <- function(ixQuarter, mat) {
     .Call(`_fastbioclim_rcpp_get_average_quarter`, ixQuarter, mat)
 }
 
-rcpp_parallel_average_quarter <- function(ixQuarter, mat, wrap = FALSE) {
-    .Call(`_fastbioclim_rcpp_parallel_average_quarter`, ixQuarter, mat, wrap)
+rcpp_parallel_average_quarter <- function(ixQuarter, mat, wrap = FALSE, na_rm = FALSE) {
+    .Call(`_fastbioclim_rcpp_parallel_average_quarter`, ixQuarter, mat, wrap, na_rm)
 }
 
 rcpp_parallel_difference <- function(mat_1, mat_2) {

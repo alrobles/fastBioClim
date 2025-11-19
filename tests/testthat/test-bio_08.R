@@ -22,51 +22,65 @@ test_that("bio_08 returns a single-layer SpatRaster named 'bio_08'", {
 })
 
 test_that("bio_08 computes mean temperature of the wettest quarter (no wrap)", {
-  # Assumes mock_pr() gives increasing monthly pr 1..12 and mock_tas() gives 1..12.
-  # Wettest non-wrapping quarter should be months 10:12; mean(10,11,12) = 11
+  # Assumptions:
+  # mock_pr() -> increasing monthly pr 1..12
+  # mock_tas() -> 1..12
+  # Wettest non-wrapping quarter months 10:12; mean(10,11,12) = 11
   pr  <- mock_pr()
   tas <- mock_tas()
   
-  out <- bio_08(pr, tas, wrap = FALSE)
+  out  <- bio_08(pr, tas, wrap = FALSE)
   vals <- terra::values(out)
   
   expect_true(all(abs(vals - 11) < 1e-10))
 })
 
 test_that("bio_08 respects wrap-around when Dec–Jan–Feb is the wettest quarter", {
-  # Construct a 1x1 cell case:
   # pr: Dec, Jan, Feb very wet -> wrap=TRUE picks Dec–Jan–Feb
-  #     Without wrap, the max non-wrapping window is Jan–Mar.
+  # Without wrap, the max non-wrapping window is Jan–Mar.
   pr_vals  <- c(100, 100, 1, 1, 1, 1, 1, 1, 1, 1, 1, 100)  # Jan..Dec
-  tas_vals <- 1:12  # tas month i = i
+  tas_vals <- 1:12
   
   pr  <- make_1x1_12(pr_vals)
   tas <- make_1x1_12(tas_vals)
   
-  out_nowrap <- bio_08(pr, tas, wrap = FALSE) # picks Jan–Mar -> mean = (1+2+3)/3 = 2
-  out_wrap   <- bio_08(pr, tas, wrap = TRUE)  # picks Dec–Jan–Feb -> mean = (12+1+2)/3 = 5
+  out_nowrap <- bio_08(pr, tas, wrap = FALSE) # picks Jan–Mar -> mean = 2
+  out_wrap   <- bio_08(pr, tas, wrap = TRUE)  # picks Dec–Jan–Feb -> mean = 5
   
   expect_equal(as.numeric(terra::values(out_nowrap)), 2)
   expect_equal(as.numeric(terra::values(out_wrap)), 5)
 })
 
-test_that("bio_08 handles NA within the chosen quarter: averages non-NA; all-NA yields NA", {
+# --- NA handling with na_rm = TRUE (robust behavior) ---
+test_that("bio_08 with na_rm=TRUE averages non-NA; all-NA yields NA", {
   # Make the wettest quarter Jan–Mar via precipitation
   pr_vals <- c(10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1)
-  # Case 1: tas has NA, NA, 3 for Jan–Mar -> average of non-NA = 3
+  
+  # Case 1: tas has NA, NA, 3 in Jan–Mar -> average over non-NA = 3
   tas_vals1 <- c(NA, NA, 3, 4,5,6,7,8,9,10,11,12)
   # Case 2: tas has all NA in Jan–Mar -> result NA
   tas_vals2 <- c(NA, NA, NA, 4,5,6,7,8,9,10,11,12)
   
-  pr  <- make_1x1_12(pr_vals)
+  pr   <- make_1x1_12(pr_vals)
   tas1 <- make_1x1_12(tas_vals1)
   tas2 <- make_1x1_12(tas_vals2)
   
-  out1 <- bio_08(pr, tas1, wrap = FALSE)
-  out2 <- bio_08(pr, tas2, wrap = FALSE)
+  out1 <- bio_08(pr, tas1, wrap = FALSE, na_rm = TRUE)
+  out2 <- bio_08(pr, tas2, wrap = FALSE, na_rm = TRUE)
   
   expect_equal(as.numeric(terra::values(out1)), 3)
   expect_true(is.na(terra::values(out2)))
+})
+
+# --- Optional: document default behavior na_rm = FALSE (propagate NA) ---
+test_that("bio_08 with na_rm=FALSE propagates NA in the selected window", {
+  pr_vals  <- c(10, 10, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1)        # wettest Jan–Mar
+  tas_vals <- c(NA, NA, 3, 4,5,6,7,8,9,10,11,12)              # NA present in window
+  pr  <- make_1x1_12(pr_vals)
+  tas <- make_1x1_12(tas_vals)
+  
+  out <- bio_08(pr, tas, wrap = FALSE, na_rm = FALSE)
+  expect_true(is.na(terra::values(out)))
 })
 
 test_that("bio_08 fails with wrong number of layers in pr", {
@@ -121,4 +135,3 @@ test_that("bio_08 can write to a file", {
   expect_equal(nlyr(out), 1)
   expect_identical(names(out), "bio_08")
 })
-  

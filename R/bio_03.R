@@ -132,7 +132,6 @@ bio_03 <- function(tasmax, tasmin, filename = "") {
 
   # Explicit close (also guarded by on.exit if an error happened earlier)
   terra::writeStop(out)
-
   names(out) <- "bio_03" # Isothermality (%)
   out
 }

@@ -71,6 +71,7 @@ bio_02 <- function(tasmax, tasmin, filename = "") {
 
   ncols <- terra::ncol(tasmax)
   b <- terra::writeStart(out, filename, overwrite = TRUE)
+  on.exit(try(terra::writeStop(out), silent = TRUE), add = TRUE)
 
   for (i in 1:b$n) {
     v_tasmax <- terra::readValues(tasmax,

@@ -10,12 +10,10 @@ parallel_which_min_quarter(mat, wrap = FALSE, na_rm = FALSE)
 \item{mat}{Numeric matrix (rows = cells, columns = months). Must have
 at least 3 columns.}
 
-\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows
-(e.g., Dec–Jan–Feb). Default \code{FALSE}.}
+\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows (e.g., Dec–Jan–Feb).
+If \code{FALSE}, only windows \verb{[1..3], [2..4], ..., [10..12]} are considered.}
 
-\item{na_rm}{Logical; if \code{TRUE}, skip windows containing any \code{NA}; if all
-windows contain \code{NA}, the result is \code{NA}. If \code{FALSE} (default),
-the presence of any \code{NA} in the row yields \code{NA} for that row.}
+\item{na_rm}{Logical; see details above.}
 }
 \value{
 An integer vector of length \code{nrow(mat)} with \strong{1-based} starting

@@ -3,7 +3,6 @@
 #include <RcppParallel.h>
 #include <algorithm>
 #include <cmath>
-
 using namespace Rcpp;
 using namespace RcppParallel;
 
@@ -16,12 +15,14 @@ struct AverageQuarterWorker : public Worker {
   const RMatrix<double> m;    // data matrix
   RMatrix<double> out;        // nrow x 1, average
   const bool wrap;
+  const bool na_rm;
   
   AverageQuarterWorker(const NumericMatrix& ixQuarter,
                        const NumericMatrix& mat,
                        NumericMatrix& out_,
-                       bool wrap_)
-    : ix(ixQuarter), m(mat), out(out_), wrap(wrap_) {}
+                       bool wrap_,
+                       bool na_rm_)
+    : ix(ixQuarter), m(mat), out(out_), wrap(wrap_), na_rm(na_rm_) {}
   
   void operator()(std::size_t begin, std::size_t end) {
     const std::size_t ncol = m.ncol();
@@ -29,13 +30,11 @@ struct AverageQuarterWorker : public Worker {
     for (std::size_t i = begin; i < end; ++i) {
       const double idx_d = ix(i, 0);
       
-      // If the index is NA, return NA
       if (is_na_double(idx_d)) {
         out(i, 0) = NA_REAL;
         continue;
       }
       
-      // Index is expected to be 1-based and within [1, ncol]
       long start1 = static_cast<long>(idx_d);
       if (start1 < 1 || start1 > static_cast<long>(ncol)) {
         out(i, 0) = NA_REAL;
@@ -46,7 +45,6 @@ struct AverageQuarterWorker : public Worker {
       std::size_t j1 = wrap ? (j0 + 1) % ncol : (j0 + 1);
       std::size_t j2 = wrap ? (j0 + 2) % ncol : (j0 + 2);
       
-      // If not wrapping, indices must be in-bounds
       if (!wrap && (j2 >= ncol)) {
         out(i, 0) = NA_REAL;
         continue;
@@ -56,14 +54,22 @@ struct AverageQuarterWorker : public Worker {
       const double b = m(i, j1);
       const double c = m(i, j2);
       
-      // Average of non-NA values among a, b, c
-      double sum = 0.0;
-      int cnt = 0;
-      if (!is_na_double(a)) { sum += a; ++cnt; }
-      if (!is_na_double(b)) { sum += b; ++cnt; }
-      if (!is_na_double(c)) { sum += c; ++cnt; }
-      
-      out(i, 0) = (cnt == 0) ? NA_REAL : (sum / static_cast<double>(cnt));
+      if (!na_rm) {
+        // Propagate NA if any NA present in the window
+        if (is_na_double(a) || is_na_double(b) || is_na_double(c)) {
+          out(i, 0) = NA_REAL;
+        } else {
+          out(i, 0) = (a + b + c) / 3.0;
+        }
+      } else {
+        // Average over non-NA values; NA if all 3 are NA
+        double sum = 0.0;
+        int cnt = 0;
+        if (!is_na_double(a)) { sum += a; ++cnt; }
+        if (!is_na_double(b)) { sum += b; ++cnt; }
+        if (!is_na_double(c)) { sum += c; ++cnt; }
+        out(i, 0) = (cnt == 0) ? NA_REAL : (sum / static_cast<double>(cnt));
+      }
     }
   }
 };
@@ -71,7 +77,8 @@ struct AverageQuarterWorker : public Worker {
 // [[Rcpp::export]]
 NumericMatrix rcpp_parallel_average_quarter(const NumericMatrix& ixQuarter,
                                             const NumericMatrix& mat,
-                                            bool wrap = false) {
+                                            bool wrap = false,
+                                            bool na_rm = false) {
   if (mat.ncol() < 3)
     stop("Matrix must have at least 3 columns.");
   if (ixQuarter.ncol() != 1)
@@ -80,7 +87,7 @@ NumericMatrix rcpp_parallel_average_quarter(const NumericMatrix& ixQuarter,
     stop("ixQuarter must have the same number of rows as 'mat'.");
   
   NumericMatrix out(mat.nrow(), 1);
-  AverageQuarterWorker worker(ixQuarter, mat, out, wrap);
+  AverageQuarterWorker worker(ixQuarter, mat, out, wrap, na_rm);
   parallelFor(0, mat.nrow(), worker);
   return out;
 }

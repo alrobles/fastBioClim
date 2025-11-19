@@ -10,12 +10,10 @@ parallel_which_max_quarter(mat, wrap = FALSE, na_rm = FALSE)
 \item{mat}{Numeric matrix (rows = cells, columns = months). Must have
 at least 3 columns.}
 
-\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows
-(e.g., Dec–Jan–Feb). Default \code{FALSE}.}
+\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows (e.g., Dec–Jan–Feb).
+If \code{FALSE}, only windows \verb{[1..3], [2..4], ..., [10..12]} are considered.}
 
-\item{na_rm}{Logical; if \code{TRUE}, skip windows containing any \code{NA}; if all
-windows contain \code{NA}, the result is \code{NA}. If \code{FALSE} (default),
-the presence of any \code{NA} in the row yields \code{NA} for that row.}
+\item{na_rm}{Logical; see details above.}
 }
 \value{
 An integer vector of length \code{nrow(mat)} with \strong{1-based} starting
@@ -23,11 +21,12 @@ indices. Row names are preserved from \code{mat} if present.
 }
 \description{
 Returns, for each row, the \strong{starting column index} (1-based) of the
-3-consecutive-column window whose \strong{sum is maximum}, using the parallel
-C++ routine \code{rcpp_parallel_which_max_rolling_quarter()}.
+3-consecutive-month window whose \strong{score is maximum}.
+The score is a 3-month \strong{mean}:
+\itemize{
+\item If \code{na_rm = FALSE} (default), any \code{NA} in a window \strong{invalidates} that window.
+\item If \code{na_rm = TRUE}, the score is computed as the \strong{mean over non-NA values};
+windows with \strong{all NA} are invalid. If \strong{no valid windows} exist for a row,
+the result is \code{NA}.
 }
-\examples{
-m1 <- matrix(1:(12 * 3), nrow = 3, byrow = TRUE)
-idx <- parallel_which_max_quarter(m1, wrap = FALSE)
-# should be 10, 10, 10
 }

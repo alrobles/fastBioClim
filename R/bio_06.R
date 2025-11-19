@@ -68,6 +68,7 @@ bio_06 <- function(tasmin, filename = "") {
   ncols <- terra::ncol(tasmin)
 
   b <- terra::writeStart(out, filename, overwrite = TRUE)
+  on.exit(try(terra::writeStop(out), silent = TRUE), add = TRUE)
 
   for (i in 1:b$n) {
     v <- terra::readValues(

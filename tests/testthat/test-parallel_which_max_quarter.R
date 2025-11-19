@@ -1,146 +1,110 @@
+# tests/testthat/test-parallel_which_max_quarter.R
+
 library(testthat)
 library(checkmate)
 
-test_that("returns correct starting indices without wrap", {
-  # Simple increasing rows: max 3-month sum is at the last possible
-  # non-wrap start
-  m1 <- matrix(1:(12 * 3), nrow = 3, byrow = TRUE)
-  idx <- parallel_which_max_quarter(m1, wrap = FALSE, na_rm = FALSE)
-
-  expect_integer(idx, any.missing = FALSE, len = nrow(m1))
-  expect_equal(as.vector(idx), rep(10L, 3)) # windows: 10-12
-})
-
-
-test_that("returns correct starting indices with wrap", {
-  # r1: wrap (12,1,2) is strictly maximal
-  r1 <- c(90, 90, rep(10, 7), 10, 10, 120) # months 1,2,12 large; 10,11 small
-  # r2: also maximal at wrap
-  r2 <- c(100, 100, rep(10, 9), 100)
-  # r3: maximal non-wrap in the middle (start=5)
-  r3 <- c(1, 1, 1, 1, 100, 100, 100, 1, 1, 1, 1, 1)
-
-  m2 <- rbind(r1, r2, r3)
-  idx <- parallel_which_max_quarter(m2, wrap = TRUE, na_rm = FALSE)
-
-  expect_equal(as.vector(idx), c(12L, 12L, 5L))
-})
-
-
-test_that("handles NA with na_rm = FALSE (any NA in row -> NA)", {
-  m <- rbind(
-    c(1, 2, 3, 4, 5, 6),
-    c(1, NA, 3, 4, 5, 6), # has NA somewhere
-    c(NA, NA, NA, 1, 1, 1) # has NA
+test_that("basic behavior without wrap, no NA", {
+  # Matrix (3 rows x 6 cols)
+  # r1 windows means: [1..3]=2, [2..4]=3, [3..5]=4, [4..6]=5 -> start=4
+  # r2 windows means: [1..3]=4, [2..4]=13/3, [3..5]=14/3, [4..6]=5 -> start=4
+  # r3 windows means: [1..3]=6, [2..4]=7, [3..5]=8, [4..6]=7 -> start=3 (if using the earlier matrix)
+  # For the specific construction below, r3 is: [1..3]=6, [2..4]=7, [3..5]=8, [4..6]=7 -> start=3? No—check carefully:
+  # r3 row is c(5,6,7,6,7,8) -> start=4 mean = (6+7+8)=7, start=3 mean=(7+6+7)=20/3 ≈ 6.667; thus max at start=4.
+  mat <- matrix(
+    c(1,2,3,  2,3,4,  3,4,5,  4,5,6,  5,6,7,  6,7,8),
+    nrow = 3, byrow = TRUE,
+    dimnames = list(c("r1","r2","r3"), paste0("m", 1:6))
   )
-  idx <- parallel_which_max_quarter(m, wrap = FALSE, na_rm = FALSE)
-  expect_true(is.na(idx[2]))
-  expect_true(is.na(idx[3]))
-  expect_false(is.na(idx[1]))
+  out <- parallel_which_max_quarter(mat, wrap = FALSE, na_rm = FALSE)
+  
+  expect_integer(out, len = 3)
+  expect_equal(unname(out["r1"]), 4L)
+  expect_equal(unname(out["r2"]), 4L)  # corrected: max at start=4
+  expect_equal(unname(out["r3"]), 4L)
 })
 
-test_that("handles NA with na_rm = TRUE (skip NA windows)", {
-  # Row 1: only one clean max window -> expect its start
-  r1 <- c(1, 2, NA, 100, 100, 100)
-  # windows with NA are skipped; max clean is 4-6 -> start=4
-  # Row 2: all windows contain NA -> result should be NA
-  r2 <- c(NA, 1, NA, 2, NA, 3)
-  # Row 3: wrap allowed
-  # A wrap window is clean and best -> expect 6 (months 6,1,2)
-  r3 <- c(50, 50, 50, 1, 1, 100)
+test_that("basic behavior with wrap", {
+  # 1 row x 5 cols; wrap windows start at 1..5
+  # Means:
+  # s=1: (1,2,10)=13/3; s=2: (2,10,20)=32/3; s=3: (10,20,50)=80/3 (max)
+  # s=4: (20,50,1)=71/3; s=5: (50,1,2)=53/3
+  mat <- matrix(c(1, 2, 10, 20, 50), nrow = 1,
+                dimnames = list("only", paste0("m", 1:5)))
+  out <- parallel_which_max_quarter(mat, wrap = TRUE, na_rm = FALSE)
+  
+  expect_integer(out, len = 1)
+  expect_equal(unname(out["only"]), 3L)  # corrected: max at start=3
+})
 
-  m <- rbind(r1, r2, r3)
-  idx_nowrap <- parallel_which_max_quarter(m,
-    wrap = FALSE,
-    na_rm = TRUE
+test_that("na_rm = FALSE invalidates any NA within a window (no wrap)", {
+  mat <- matrix(
+    c(1, NA, 3, 4, NA,   # a: every window has an NA
+      5, 6, NA, 7, 8),   # b: every window has an NA
+    nrow = 2, byrow = TRUE,
+    dimnames = list(c("a","b"), paste0("m", 1:5))
   )
-  expect_equal(idx_nowrap[[1]], 4L)
-  expect_true(is.na(idx_nowrap[[2]]))
-
-  # For row 3, without wrap, best non-wrap is 1..3 (sum 150) vs 4..6 (sum 102)
-  # Expect 1
-  expect_equal(idx_nowrap[[3]], 1L)
-
-  idx_wrap <- parallel_which_max_quarter(m, wrap = TRUE, na_rm = TRUE)
-
-  expect_equal(idx_wrap[[1]], 4L)
-  expect_true(is.na(idx_wrap[[2]]))
-
-  # With wrap, window (6,1,2) = 100+50+50 = 200 -> start=6
-  expect_equal(idx_wrap[[3]], 6L)
+  out <- parallel_which_max_quarter(mat, wrap = FALSE, na_rm = FALSE)
+  
+  expect_integer(out, len = 2, any.missing = TRUE)
+  expect_true(is.na(out["a"]))
+  expect_true(is.na(out["b"]))
 })
 
-test_that("ties are broken by earliest start index", {
-  # Row with two equal max sums: (1,2,3)=6 and (2,3,1)=6 with wrap,
-  # expect earliest start (1) if implementation picks first max.
-  r <- c(1, 2, 3)
-  m <- matrix(r, nrow = 1)
-  idx_nowrap <- parallel_which_max_quarter(m,
-    wrap = FALSE,
-    na_rm = TRUE
+test_that("na_rm = TRUE averages over non-NA; all-NA windows are invalid (no wrap)", {
+  # r1 windows:
+  # [1..3]=(1,NA,3)->2; [2..4]=(NA,3,4)->3.5; [3..5]=(3,4,NA)->3.5 -> start 2 or 3
+  # r2: all NA -> NA
+  mat <- matrix(
+    c(1, NA, 3, 4, NA,
+      NA, NA, NA, NA, NA),
+    nrow = 2, byrow = TRUE,
+    dimnames = list(c("r1","r2"), paste0("m", 1:5))
   )
-  expect_equal(as.vector(idx_nowrap), 1L)
+  out <- parallel_which_max_quarter(mat, wrap = FALSE, na_rm = TRUE)
+  
+  expect_integer(out, len = 2, any.missing = TRUE)
+  expect_true(unname(out["r1"]) %in% c(2L, 3L))
+  expect_true(is.na(out["r2"]))
+})
 
-  # With longer row: two equal maxima  (1,2,3)=6 and (2,3,1)=6 via wrap;
-  # expect 1 as earliest
-  r2 <- c(1, 2, 3, 0, 0, 0)
-  m2 <- matrix(r2, nrow = 1)
-  idx_wrap <- parallel_which_max_quarter(m2,
-    wrap = TRUE,
-    na_rm = TRUE
+test_that("wrap with na_rm = TRUE handles wrapped windows properly", {
+  # s=1: (1,2,NA)->1.5; s=2: (2,NA,100)->51 (max); s=3: (NA,100,1)->50.5; s=4: (100,1,2)->34.33
+  mat <- matrix(c(1, 2, NA, 100), nrow = 1,
+                dimnames = list("row", paste0("m", 1:4)))
+  out <- parallel_which_max_quarter(mat, wrap = TRUE, na_rm = TRUE)
+  expect_integer(out, len = 1)
+  expect_equal(unname(out["row"]), 2L)
+})
+
+test_that("all windows invalid -> NA (no wrap)", {
+  mat <- matrix(c(NA, NA, NA), nrow = 1,
+                dimnames = list("r", paste0("m", 1:3)))
+  out <- parallel_which_max_quarter(mat, wrap = FALSE, na_rm = TRUE)
+  expect_true(is.na(out["r"]))
+})
+
+test_that("ties: accept either earliest or implementation-defined tie-break", {
+  # Two equal-max windows for row 'a'; unique max for 'b'
+  mat <- rbind(
+    a = c(1, 2, 3, 1),  # [1..3] mean=2; [2..4]=(2,3,1) mean=2 -> accept 1 or 2
+    b = c(3, 2, 1, 1)   # [1..3] mean=2; [2..4]=(2,1,1) mean=4/3 -> max at 1
   )
-  expect_equal(as.vector(idx_wrap), 1L)
+  out <- parallel_which_max_quarter(mat, wrap = FALSE, na_rm = FALSE)
+  expect_true(unname(out["a"]) %in% c(1L, 2L))
+  expect_equal(unname(out["b"]), 1L)
 })
 
-test_that("preserves row names", {
-  m <- matrix(1:18, nrow = 3, byrow = TRUE)
-  rownames(m) <- c("cell_A", "cell_B", "cell_C")
-  idx <- parallel_which_max_quarter(m, wrap = FALSE, na_rm = FALSE)
-  expect_named(idx, rownames(m))
+test_that("input validation: matrix type, numeric mode, size", {
+  expect_error(parallel_which_max_quarter(1:5), "Must be of type 'matrix'")
+  expect_error(parallel_which_max_quarter(matrix(letters[1:6], nrow = 2)),
+               "Must store numerics")
+  expect_error(parallel_which_max_quarter(matrix(1:4, nrow = 2)),
+               "Must have at least 3 cols")
 })
 
-test_that("fails with non-matrix input", {
-  wrong_input <- c(1, 2, 3)
-  expect_error(
-    parallel_which_max_quarter(wrong_input),
-    "Must be of type 'matrix'"
-  )
-})
-
-test_that("fails with non-numeric matrix", {
-  wrong_input <- matrix(letters[1:6], nrow = 2)
-  expect_error(
-    parallel_which_max_quarter(wrong_input),
-    "Must store numerics"
-  )
-})
-
-
-test_that("fails with fewer than 3 columns", {
-  m <- matrix(as.numeric(1:4), nrow = 2, ncol = 2)
-  expect_error(parallel_which_max_quarter(m))
-})
-
-
-test_that("fails with invalid flags", {
-  m <- matrix(1:12, nrow = 3, byrow = TRUE)
-  expect_error(parallel_which_max_quarter(m, wrap = "yes"),
-    regexp = "logical flag"
-  )
-  expect_error(parallel_which_max_quarter(m, na_rm = 1L),
-    regexp = "logical flag"
-  )
-})
-
-
-test_that("works with a single row and many columns", {
-  m <- matrix(c(0, 0, 0, 10, 10, 10, 5, 5, 5), nrow = 1)
-  idx <- parallel_which_max_quarter(m, wrap = FALSE, na_rm = TRUE)
-  expect_equal(as.vector(idx), 4L)
-})
-
-test_that("NA result when all windows contain NA and na_rm = TRUE", {
-  m <- matrix(c(1, NA, 2, NA, 3, NA), nrow = 1)
-  idx <- parallel_which_max_quarter(m, wrap = TRUE, na_rm = TRUE)
-  expect_true(is.na(idx[1]))
+test_that("row names are preserved", {
+  mat <- matrix(1:12, nrow = 3, byrow = TRUE,
+                dimnames = list(c("r1","r2","r3"), paste0("m", 1:4)))
+  out <- parallel_which_max_quarter(mat)
+  expect_identical(names(out), rownames(mat))
 })

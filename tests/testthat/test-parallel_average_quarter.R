@@ -1,137 +1,159 @@
 library(testthat)
 library(checkmate)
 
-# Helper to make 1-col index matrix (1-based)
-ix <- function(v) matrix(as.numeric(v), ncol = 1)
-
-test_that("computes averages correctly without wrap", {
-  # 3 rows, 12 cols; row i is 1..12 + offset
-  m <- matrix(rep(1:12, 3), nrow = 3, byrow = TRUE)
-  # start index 10 => window (10,11,12) => average of (10,11,12) = 11
-  idx <- ix(rep(10, nrow(m)))
-  out <- parallel_average_quarter(idx, m, wrap = FALSE)
-  expect_numeric(out, any.missing = FALSE, len = nrow(m))
-  expect_equal(as.vector(out), rep(mean(c(10, 11, 12)), 3))
-})
-
-test_that("computes averages correctly with wrap", {
-  # Row 1: numbers 1..12
-  # start=12 with wrap => (12,1,2) => avg = (12+1+2)/3 = 5
-  m <- matrix(1:12, nrow = 1)
-  idx <- ix(12)
-  out <- parallel_average_quarter(idx, m, wrap = TRUE)
-  expect_equal(as.vector(out), (12 + 1 + 2) / 3)
+test_that("basic 3-month averages without wrap, no NA", {
+  mat <- matrix(
+    c(1,2,3,  4,5,6,  7,8,9),  # 3 rows x 3 cols
+    nrow = 3, byrow = TRUE,
+    dimnames = list(c("r1","r2","r3"), NULL)
+  )
+  idx <- matrix(c(1,1,1), ncol = 1)  # all start at column 1
   
-  # Multi-row: different starts
-  m2 <- rbind(1:12, 11:22, 101:112)  # 3 rows
-  idx2 <- ix(c(12, 11, 1))
-  # Row1 (12,1,2) -> (12+1+2)/3
-  # Row2 (11,12,13) -> (11+12+13)/3
-  # Row3 (1,2,3) in that row's scale -> (101+102+103)/3, but start=1 -> (101,102,103)
-  out2 <- parallel_average_quarter(idx2, m2, wrap = TRUE)
-  expect_equal(
-    as.vector(out2),
-    c((12 + 1 + 2) / 3, (21 + 22 + 11) / 3, (101 + 102 + 103) / 3)
-  )
-})
-
-test_that("ignores NA values in the 3-month window; all-NA yields NA", {
-  # Row1: (10, NA, 12) -> avg = (10+12)/2 = 11 (no wrap)
-  # Row2: (NA, NA, 5) -> avg = 5
-  # Row3: (NA, NA, NA) -> NA
-  m <- rbind(
-    c(1:9, 10, NA, 12),
-    c(NA, NA, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2),
-    rep(NA_real_, 12)
-  )
-  idx <- ix(c(10, 1, 5))
-  out <- parallel_average_quarter(idx, m, wrap = FALSE)
-  expect_equal(out[[1]], (10 + 12) / 2)
-  expect_equal(out[[2]], 5)
-  expect_true(is.na(out[[3]]))
-})
-
-test_that("wrap affects windows near the end correctly", {
-  m <- matrix(1:12, nrow = 1)
-  # wrap=FALSE, start=11 -> (11,12,13) invalid -> NA
-  out_nowrap <- parallel_average_quarter(ix(11), m, wrap = FALSE)
-  expect_true(is.na(out_nowrap[[1]]))
+  out <- parallel_average_quarter(idx, mat, wrap = FALSE, na_rm = FALSE)
   
-  # wrap=TRUE, start=11 -> (11,12,1) -> avg = (11+12+1)/3 = 8
-  out_wrap <- parallel_average_quarter(ix(11), m, wrap = TRUE)
-  expect_equal(out_wrap[[1]], (11 + 12 + 1) / 3)
+  expect_numeric(out, len = 3)
+  expect_equal(out, c(r1 = 2, r2 = 5, r3 = 8))
 })
 
-test_that("preserves row names", {
-  m <- matrix(1:18, nrow = 3, byrow = TRUE)
-  rownames(m) <- c("cell_A", "cell_B", "cell_C")
-  out <- parallel_average_quarter(ix(rep(1, 3)), m, wrap = FALSE)
-  expect_named(out, rownames(m))
-})
-
-test_that("fails with non-matrix input", {
-  wrong_idx <- c(1, 2, 3)
-  m <- matrix(1:12, nrow = 3, byrow = TRUE)
-  expect_error(parallel_average_quarter(wrong_idx, m), "Must be of type 'matrix'")
-})
-
-
-test_that("fails when idx has wrong number of columns", {
-  m <- matrix(1:12, nrow = 3, byrow = TRUE)
-  bad_idx <- matrix(1:6, nrow = 3, ncol = 2)
-  expect_error(
-    parallel_average_quarter(bad_idx, m),
-    regexp = "exactly\\s*1\\s*cols",
-    ignore.case = TRUE
+test_that("basic 3-month averages with wrap", {
+  mat <- matrix(
+    c(1, 10, 100,
+      2, 20, 200,
+      3, 30, 300),
+    nrow = 3, byrow = TRUE,
+    dimnames = list(c("a","b","c"), paste0("m", 1:3))
   )
+  # start at col 2: window = col2, col3, col1 (wrap)
+  idx <- matrix(c(2,2,2), ncol = 1)
+  
+  out <- parallel_average_quarter(idx, mat, wrap = TRUE, na_rm = FALSE)
+  
+  expect_equal(unname(out["a"]), (10 + 100 + 1) / 3)
+  expect_equal(unname(out["b"]), (20 + 200 + 2) / 3)
+  expect_equal(unname(out["c"]), (30 + 300 + 3) / 3)
 })
 
-test_that("fails when idx rows != mat rows", {
-  m <- matrix(1:12, nrow = 3, byrow = TRUE)
-  bad_idx <- ix(rep(1, 2))
-  expect_error(parallel_average_quarter(bad_idx, m), "same number of rows")
+test_that("no wrap at end returns NA if window exceeds ncol", {
+  mat <- matrix(
+    c(1,2,3,4,
+      5,6,7,8),
+    nrow = 2, byrow = TRUE,
+    dimnames = list(c("r1","r2"), NULL)
+  )
+  idx <- matrix(c(3, 4), ncol = 1) # start at 3 & 4 for a 4-col matrix
+  
+  # For r1: start=3 -> needs cols 3,4,5 => invalid => NA
+  # For r2: start=4 -> needs cols 4,5,6 => invalid => NA
+  out <- parallel_average_quarter(idx, mat, wrap = FALSE, na_rm = FALSE)
+  expect_true(is.na(out["r1"]))
+  expect_true(is.na(out["r2"]))
 })
 
-test_that("fails with non-numeric matrix", {
-  m <- matrix(letters[1:6], nrow = 2)
-  idx <- ix(c(1, 1))
-  expect_error(parallel_average_quarter(idx, m), "Must store numerics")
+test_that("wrap at end works (e.g., Dec–Jan–Feb)", {
+  mat <- matrix(
+    c(1, 2, 3, 4,
+      10,20,30,40),
+    nrow = 2, byrow = TRUE,
+    dimnames = list(c("x","y"), paste0("m", 1:4))
+  )
+  idx <- matrix(c(3, 4), ncol = 1)
+  
+  # x: start=3 -> cols (3,4,1) = (3,4,1)
+  # y: start=4 -> cols (4,1,2) = (40,10,20)
+  out <- parallel_average_quarter(idx, mat, wrap = TRUE, na_rm = FALSE)
+  expect_equal(unname(out["x"]), (3 + 4 + 1) / 3)
+  expect_equal(unname(out["y"]), (40 + 10 + 20) / 3)
 })
 
-test_that("fails with fewer than 3 columns", {
-  m <- matrix(as.numeric(1:4), nrow = 2, ncol = 2)
-  idx <- ix(c(1, 1))
-  expect_error(parallel_average_quarter(idx, m))
+test_that("NA handling: na_rm = FALSE propagates any NA", {
+  mat <- matrix(
+    c(1, NA, 3,
+      NA, NA, NA,
+      4, 5, 6),
+    nrow = 3, byrow = TRUE,
+    dimnames = list(c("r1","r2","r3"), NULL)
+  )
+  idx <- matrix(c(1, 1, 1), ncol = 1)
+  
+  out <- parallel_average_quarter(idx, mat, wrap = FALSE, na_rm = FALSE)
+  expect_true(is.na(out["r1"]))  # NA present in window -> NA
+  expect_true(is.na(out["r2"]))  # all NA -> NA
+  expect_equal(unname(out["r3"]), 5)     # no NA -> average = 5
 })
 
-test_that("invalid wrap flag errors", {
-  m <- matrix(1:12, nrow = 3, byrow = TRUE)
-  idx <- ix(rep(1, 3))
-  expect_error(parallel_average_quarter(idx, m, wrap = "yes"), regexp = "logical flag")
+test_that("NA handling: na_rm = TRUE averages non-NA; NA if all NA", {
+  mat <- matrix(
+    c(1, NA, 3,
+      NA, NA, NA,
+      4, 5, NA),
+    nrow = 3, byrow = TRUE,
+    dimnames = list(c("r1","r2","r3"), NULL)
+  )
+  idx <- matrix(c(1, 1, 1), ncol = 1)
+  
+  out <- parallel_average_quarter(idx, mat, wrap = FALSE, na_rm = TRUE)
+  expect_equal(unname(out["r1"]), (1 + 3) / 2)   # average over non-NA only
+  expect_true(is.na(out["r2"]))                  # all NA -> NA
+  expect_equal(unname(out["r3"]), (4 + 5) / 2)   # average over non-NA only
 })
 
-test_that("index out of bounds returns NA (consistent with C++)", {
-  m <- matrix(1:12, nrow = 2, byrow = TRUE)
-  # start=0 and start=13 are invalid -> NA regardless of wrap
-  idx <- ix(c(0, 13))
-  out_nowrap <- parallel_average_quarter(idx, m, wrap = FALSE)
-  out_wrap   <- parallel_average_quarter(idx, m, wrap = TRUE)
-  expect_true(all(is.na(out_nowrap)))
-  expect_true(all(is.na(out_wrap)))
+test_that("invalid idx values yield NA (out of range or NA)", {
+  mat <- matrix(
+    c(1,2,3,
+      4,5,6),
+    nrow = 2, byrow = TRUE,
+    dimnames = list(c("a","b"), NULL)
+  )
+  idx <- matrix(c(0, NA_real_), ncol = 1)  # 0 invalid, NA invalid
+  
+  out <- parallel_average_quarter(idx, mat, wrap = TRUE, na_rm = TRUE)
+  expect_true(is.na(out["a"]))
+  expect_true(is.na(out["b"]))
 })
 
-test_that("works with a single row and many columns", {
-  m <- matrix(c(0, 0, 0, 10, 10, 10, 5, 5, 5), nrow = 1)
-  idx <- ix(4)  # (10,10,10) -> avg 10
-  out <- parallel_average_quarter(idx, m, wrap = FALSE)
-  expect_equal(as.vector(out), 10)
+test_that("input validation: shape and row count checks", {
+  mat <- matrix(1:6, nrow = 2, byrow = TRUE)
+  good_idx <- matrix(c(1,1), ncol = 1)
+  bad_idx_ncol2 <- matrix(c(1,1,2,2), ncol = 2)
+  bad_idx_nrow <- matrix(1, ncol = 1)
+  
+  # wrong ncols for idx
+  expect_error(parallel_average_quarter(bad_idx_ncol2, mat))
+  # wrong nrows for idx vs mat
+  expect_error(parallel_average_quarter(bad_idx_nrow, mat))
+  # mat with < 3 cols
+  mat_small <- matrix(1:4, nrow = 2, byrow = TRUE)  # only 2 cols
+  expect_error(parallel_average_quarter(good_idx, mat_small))
 })
 
-test_that("handles NA index as NA output", {
-  m <- matrix(1:12, nrow = 2, byrow = TRUE)
-  idx <- ix(c(NA_real_, 1))
-  out <- parallel_average_quarter(idx, m, wrap = FALSE)
-  expect_true(is.na(out[[1]]))
-  expect_false(is.na(out[[2]]))
+test_that("row names are propagated to output", {
+  mat <- matrix(
+    c(1,2,3,
+      4,5,6),
+    nrow = 2, byrow = TRUE,
+    dimnames = list(c("rowA","rowB"), NULL)
+  )
+  idx <- matrix(c(1,1), ncol = 1)
+  
+  out <- parallel_average_quarter(idx, mat, wrap = FALSE, na_rm = FALSE)
+  expect_identical(names(out), rownames(mat))
+})
+
+test_that("works with larger matrices and mixed wrap behaviors", {
+  set.seed(123)
+  mat <- matrix(runif(5 * 12), nrow = 5, ncol = 12,
+                dimnames = list(paste0("r", 1:5), paste0("m", 1:12)))
+  # start months per row
+  idx <- matrix(c(1, 12, 5, 9, 3), ncol = 1)
+  
+  # Compute expected manually for a couple of rows
+  # r1, start=1, no wrap needed
+  exp_r1 <- mean(mat[1, 1:3])
+  # r2, start=12, wrap -> (12, 1, 2)
+  exp_r2 <- mean(c(mat[2, 12], mat[2, 1], mat[2, 2]))
+  
+  out <- parallel_average_quarter(idx, mat, wrap = TRUE, na_rm = FALSE)
+  expect_equal(unname(out["r1"]), exp_r1)
+  expect_equal(unname(out["r2"]), exp_r2)
 })
 

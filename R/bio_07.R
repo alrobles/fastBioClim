@@ -71,12 +71,14 @@ bio_07 <- function(tasmax, tasmin, filename = "") {
 
   terra::readStart(tasmax)
   terra::readStart(tasmin)
-  on.exit(terra::readStop(tasmax))
-  on.exit(terra::readStop(tasmin))
-
+  on.exit(terra::readStop(tasmax), add = TRUE)
+  on.exit(terra::readStop(tasmin), add = TRUE)
+  
   ncols <- terra::ncol(tasmax)
 
   b <- terra::writeStart(out, filename, overwrite = TRUE)
+  on.exit(try(terra::writeStop(out), silent = TRUE), add = TRUE)
+  
   for (i in 1:b$n) {
     v_tasmax <- terra::readValues(tasmax,
       row = b$row[i], nrows = b$nrows[i],

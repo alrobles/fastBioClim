@@ -4,7 +4,7 @@
 \alias{parallel_average_quarter}
 \title{Parallel average over quarter (3 months) per row}
 \usage{
-parallel_average_quarter(idx, mat, wrap = FALSE)
+parallel_average_quarter(idx, mat, wrap = FALSE, na_rm = FALSE)
 }
 \arguments{
 \item{idx}{Numeric matrix with one column and \code{nrow(mat)} rows,
@@ -12,15 +12,16 @@ containing \strong{1-based} starting indices per row.}
 
 \item{mat}{Numeric matrix of values (rows = cells, columns = months).}
 
-\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows (e.g., Dec–Jan–Feb).
-Default \code{FALSE}.}
+\item{wrap}{Logical; if \code{TRUE}, allow wrap-around windows (e.g., Dec–Jan–Feb).}
+
+\item{na_rm}{Logical; if \code{TRUE}, ignore \code{NA}s in the 3-month average
+(return \code{NA} only if all three are \code{NA}). If \code{FALSE}, any \code{NA} in the window
+propagates to \code{NA}.}
 }
 \value{
-A numeric vector of length \code{nrow(mat)} with the averages. Row names
-from \code{mat} are preserved.
+A numeric vector of length \code{nrow(mat)} with the per-row averages.
 }
 \description{
 Computes the average of the 3-consecutive-month window per row, starting at
-indices provided in \code{idx} (1-based). NAs are ignored in the average;
-if the three values are all NA, the result is NA. Optionally allows wrap-around.
+indices provided in \code{idx} (1-based).
 }

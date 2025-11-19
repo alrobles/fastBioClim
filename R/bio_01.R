@@ -58,6 +58,7 @@ bio_01 <- function(tas, filename = "") {
   ncols <- terra::ncol(tas)
 
   b <- terra::writeStart(out, filename, overwrite = TRUE)
+  on.exit(try(terra::writeStop(out), silent = TRUE), add = TRUE)
 
   for (i in 1:b$n) {
     v <- terra::readValues(

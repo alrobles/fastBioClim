@@ -82,15 +82,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_parallel_average_quarter
-NumericMatrix rcpp_parallel_average_quarter(const NumericMatrix& ixQuarter, const NumericMatrix& mat, bool wrap);
-RcppExport SEXP _fastbioclim_rcpp_parallel_average_quarter(SEXP ixQuarterSEXP, SEXP matSEXP, SEXP wrapSEXP) {
+NumericMatrix rcpp_parallel_average_quarter(const NumericMatrix& ixQuarter, const NumericMatrix& mat, bool wrap, bool na_rm);
+RcppExport SEXP _fastbioclim_rcpp_parallel_average_quarter(SEXP ixQuarterSEXP, SEXP matSEXP, SEXP wrapSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const NumericMatrix& >::type ixQuarter(ixQuarterSEXP);
     Rcpp::traits::input_parameter< const NumericMatrix& >::type mat(matSEXP);
     Rcpp::traits::input_parameter< bool >::type wrap(wrapSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_average_quarter(ixQuarter, mat, wrap));
+    Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_parallel_average_quarter(ixQuarter, mat, wrap, na_rm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -136,7 +137,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastbioclim_rcpp_parallel_which_max_row", (DL_FUNC) &_fastbioclim_rcpp_parallel_which_max_row, 1},
     {"_fastbioclim_rcpp_parallel_which_min_row", (DL_FUNC) &_fastbioclim_rcpp_parallel_which_min_row, 1},
     {"_fastbioclim_rcpp_get_average_quarter", (DL_FUNC) &_fastbioclim_rcpp_get_average_quarter, 2},
-    {"_fastbioclim_rcpp_parallel_average_quarter", (DL_FUNC) &_fastbioclim_rcpp_parallel_average_quarter, 3},
+    {"_fastbioclim_rcpp_parallel_average_quarter", (DL_FUNC) &_fastbioclim_rcpp_parallel_average_quarter, 4},
     {"_fastbioclim_rcpp_parallel_difference", (DL_FUNC) &_fastbioclim_rcpp_parallel_difference, 2},
     {"_fastbioclim_rcpp_parallel_variance", (DL_FUNC) &_fastbioclim_rcpp_parallel_variance, 1},
     {"_fastbioclim_rcpp_parallel_sd", (DL_FUNC) &_fastbioclim_rcpp_parallel_sd, 1},
