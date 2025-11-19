@@ -1,10 +1,1 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-src/*.o
-src/*.so
-src/*.dll
-draft/*
-R_sandbox
-src_sandbox
+Nothing should be ignored based on the provided file changes. The only added file is README.md, which is a source/config file and should not be ignored.
