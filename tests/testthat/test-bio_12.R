@@ -9,19 +9,19 @@ test_that("bio_12 computes annual precipitation (sum over 12 months)", {
     crs = "EPSG:4326"
   )
   set.seed(123)
-  layers <- lapply(1:12, function(i) setValues(r_base, i)) # layer i has all cells = i
+  layers <- lapply(1:12, function(i) setValues(r_base, i))
+  # layer i has all cells = i
   pr <- rast(layers)
   names(pr) <- paste0("m", 1:12)
 
   # Expected sum per cell: 1+2+...+12 = 78
   out <- bio_12(pr, filename = "", na_rm = FALSE)
-
   expect_s4_class(out, "SpatRaster")
   expect_equal(nlyr(out), 1)
   expect_identical(names(out), "bio_12")
   expect_true(all(values(out)[, 1] == 78))
   # Geometry should be preserved
-  expect_equal(ext(out), ext(pr))
+  expect_equal(as.vector(ext(out)), as.vector(ext(pr)))
   expect_identical(crs(out), crs(pr))
   expect_equal(res(out), res(pr))
 })
@@ -35,7 +35,7 @@ test_that("bio_12 NA handling: na_rm = FALSE propagates NA", {
   layers <- mapply(function(i, v) setValues(r_base, v), i = 1:12, v = vals, SIMPLIFY = FALSE)
   pr <- rast(layers)
 
-  out <- bio_12(pr, wrap = FALSE, filename = "", na_rm = FALSE)
+  out <- bio_12(pr, filename = "", na_rm = FALSE)
   expect_true(is.na(values(out)[1, 1]))
 })
 
@@ -53,7 +53,7 @@ test_that("bio_12 NA handling: na_rm = TRUE sums non-NA, NA if all NA", {
   })
   pr <- rast(layers)
 
-  out <- bio_12(pr, wrap = FALSE, filename = "", na_rm = TRUE)
+  out <- bio_12(pr, filename = "", na_rm = TRUE)
   vals <- values(out)[, 1]
   expect_equal(vals[1], 78 - 5)
   expect_true(is.na(vals[2]))
@@ -77,7 +77,12 @@ test_that("bio_12 writes to disk when filename is provided", {
 
 test_that("bio_12 input validation: class and layer count", {
   # wrong class
-  expect_error(bio_12(matrix(1:12, nrow = 3)), "must inherit from class")
+  expect_error(
+    bio_12(matrix(1:12, nrow = 3)),
+    regexp = "must inherit from class",
+    ignore.case = TRUE
+  )
+  
   # not 12 layers
   r_base <- rast(nrows = 1, ncols = 1)
   pr_bad <- rast(list(setValues(r_base, 1), setValues(r_base, 2))) # 2 layers
@@ -96,6 +101,6 @@ test_that("bio_12 works on non-trivial values", {
   # Build a 4 x 12 matrix of cell values (cells as rows, months as cols)
   cell_by_month <- do.call(cbind, lapply(1:12, function(i) values(pr[[i]])[, 1]))
   expected <- rowSums(cell_by_month)
-  out <- bio_12(pr, wrap = FALSE, filename = "", na_rm = FALSE)
+  out <- bio_12(pr, filename = "", na_rm = FALSE)
   expect_equal(as.numeric(values(out)[, 1]), expected)
 })

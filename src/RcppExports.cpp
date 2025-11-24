@@ -130,7 +130,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_parallel_sum
-NumericMatrix rcpp_parallel_sum(NumericMatrix mat, bool na_rm);
+NumericVector rcpp_parallel_sum(NumericMatrix mat, bool na_rm);
 RcppExport SEXP _fastbioclim_rcpp_parallel_sum(SEXP matSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

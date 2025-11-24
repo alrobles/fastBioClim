@@ -3,6 +3,8 @@
         "-std=gnu++17",
         "-I/usr/share/R/include",
         "-DNDEBUG",
+        "-fopenmp",
+        "-ffast-math",
         "-fpic",
         "-I/home/reumanlab/R/x86_64-pc-linux-gnu-library/4.5/Rcpp/include",
         "-I/home/reumanlab/R/x86_64-pc-linux-gnu-library/4.5/RcppParallel/include",
@@ -17,7 +19,7 @@
     ],
     "pch": "Rcpp",
     "is_cpp": true,
-    "hash": "17632732721763406299",
+    "hash": "176327327217636145111763616138",
     "compiler": "9591782505921053015",
     "rversion": "4.5.2",
     "dbversion": 4

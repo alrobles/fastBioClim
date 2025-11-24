@@ -7,17 +7,17 @@
 bio_12(pr, filename = "", na_rm = FALSE)
 }
 \arguments{
-\item{pr}{A \link[terra:SpatRaster-class]{terra::SpatRaster} with \strong{12 layers} of monthly precipitation (Jan–Dec).}
+\item{pr}{A \link[terra:SpatRaster-class]{terra::SpatRaster} with \strong{12 layers} of monthly precipitation.}
 
-\item{filename}{Optional file path for writing the output raster
-(use \code{""} for in‑memory).}
+\item{filename}{Optional output file path (default \code{""} = in-memory).}
 
-\item{na_rm}{Logical; if \code{TRUE}, ignore \code{NA}s when summing.
-If \code{FALSE} (default), any \code{NA} propagates to the result.}
+\item{na_rm}{Logical; if \code{TRUE}, ignore \code{NA}s when summing.}
 }
 \value{
 A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing \strong{BIO12}
 (Annual Precipitation, units mm).
+
+A \link[terra:SpatRaster-class]{terra::SpatRaster} with one layer representing \strong{BIO12} (Annual Precipitation).
 }
 \description{
 Compute \strong{BIO12 (Annual Precipitation)} from monthly precipitation (\code{pr})
@@ -28,18 +28,36 @@ rasters following the CHELSA/WorldClim Bioclimatic Variables framework.
 computed per cell. This implementation:
 \enumerate{
 \item Reads monthly precipitation values from \code{pr} (12 layers).
-\item Computes the \strong{sum of all monthly precipitation values} for each cell.
+\item Computes the \strong{sum of all monthly precipitation values} for each
+cell.
 }
 
 The sum is computed using \code{parallel_sum(mat, wrap = ..., na_rm = ...)}.
+
+\strong{BIO12} is the \strong{total precipitation over all 12 months} of the year,
+computed per cell. This implementation:
+\enumerate{
+\item Reads monthly precipitation values from \code{pr} (12 layers).
+\item Computes the \strong{sum of all monthly precipitation values} for each cell
+using a parallelized C++ implementation for optimal performance.
+}
 }
 \section{NA handling}{
 
 \itemize{
+\item If \code{na_rm = TRUE}, missing values (\code{NA}) are ignored when
+summing.
+\item If all 12 months are \code{NA}, the result is \code{NA}.
+\item If \code{na_rm = FALSE} (default), any \code{NA} in the 12 months
+propagates, resulting in \code{NA} for that cell.
+}
+
+
+\itemize{
 \item If \code{na_rm = TRUE}, missing values (\code{NA}) are ignored when summing.
-If all 12 months are \code{NA}, the result is \code{NA}.
-\item If \code{na_rm = FALSE} (default), any \code{NA} in the 12 months propagates,
-resulting in \code{NA} for that cell.
+Cells with all-NA months remain \code{NA}.
+\item If \code{na_rm = FALSE} (default), any \code{NA} in the 12 months propagates
+to the result.
 }
 }
 
@@ -51,11 +69,34 @@ resulting in \code{NA} for that cell.
 
 The raster must be a \code{terra::SpatRaster} with 12 layers. When writing to
 disk, the output inherits geometry (extent, resolution, CRS) from \code{pr}.
+
+
+\itemize{
+\item \code{pr}: monthly precipitation (mm), 12 layers (Jan–Dec).
+\item Output: Annual precipitation in mm.
+}
 }
 
+\examples{
+\dontrun{
+library(terra)
+# Create sample monthly precipitation data (12 layers)
+r <- rast(nrows=100, ncols=100, nlyrs=12, vals=runif(12*100*100, 0, 100))
+names(r) <- month.abb
+# Compute annual precipitation
+bio12 <- bio_12(r)
+plot(bio12)
+}
+}
 \references{
 Karger, D.N., et al. (2022). CHELSA V2.1: High‑resolution monthly and annual
 climatologies for the Earth land surface areas.
 \emph{Earth System Science Data}, 14, 5573–5610. \cr
 Hijmans, R.J., et al. (2005). Very high resolution interpolated climate
+
+Karger, D.N., et al. (2022). CHELSA V2.1.
+\emph{Earth System Science Data}, 14, 5573–5610.
+
+Hijmans, R.J., et al. (2005). Very high resolution interpolated climate surfaces.
+\emph{International Journal of Climatology}, 25, 1965–1978.
 }
